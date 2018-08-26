@@ -57,6 +57,13 @@ git config --global core.commitGraph true
 rem pull our dotfiles:
 md "%dest%"
 git clone https://github.com/laur89/win_dots.git "%dest%/"
+echo done
+pause
+exit1
+
+
+
+
 
 SET ahk_launcher=%dest%\ahk\ahk-launcher.ahk
 if not exist "%ahk_launcher%" (
