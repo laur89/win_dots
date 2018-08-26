@@ -59,7 +59,7 @@ md "%dest%"
 git clone https://github.com/laur89/win_dots.git "%dest%/"
 echo done
 pause
-exit1
+exit 1
 
 
 
