@@ -1,0 +1,17 @@
+[diff]
+	indentHeuristic = true
+[color "diff"]
+	new = green bold
+[color "status"]
+	updated = green bold
+[color "branch"]
+	current = green bold
+[core]
+	longpaths = true
+	preloadindex = true
+	fscache = true
+	commitGraph = true
+	autocrlf = input
+	safecrlf = true
+[gc]
+	auto = 256

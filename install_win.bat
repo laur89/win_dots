@@ -43,19 +43,11 @@ if %errorlevel% neq 0 (
 
 choco feature enable -n=allowGlobalConfirmation
 
-rem first need to install git in order to pull config files:
+choco install cygwin
+:: choco install cygwin --params "/InstallDir:C:\cygwin"
+choco install cyg-get
 choco install git.install --params "/GitAndUnixToolsOnPath"
 call refreshenv
-
-git config --global diff.indentHeuristic true
-git config --global color.diff.new "green bold"
-git config --global color.status.updated "green bold"
-git config --global color.branch.current "green bold"
-git config --global core.longpaths true
-git config --global core.preloadindex true
-git config --global core.fscache true
-git config --global gc.auto 256
-git config --global core.commitGraph true
 
 rem pull our dotfiles & private config:
 md "%dest%"
@@ -68,7 +60,7 @@ git clone https://bitbucket.org/layr/private-common.git "%dest%\private-common"
 rem link ssh/:
 SET ssh_loc=%dest%\private-common\ssh
 if not exist "%ssh_loc%" (
-    echo ["%ssh_loc%"] doesn't exist!
+    echo [%ssh_loc%] doesn't exist!
     echo won't abort
     pause
 ) else (
@@ -80,8 +72,11 @@ SET homedots=%dots%\home
 if exist "%homedots%" (
     rem pushd "%homedots%"
     rem for %%i in (*) do mklink /d "%userprofile%\" "%%i"
-    forfiles /P "%homedots%" /C "cmd /c if @isdir==TRUE ( mklink /d \"%userprofile%\@file\" @path ) else ( mklink \"%userprofile%\@file\" @path )"
     rem popd
+    forfiles /P "%homedots%" /C "cmd /c if @isdir==TRUE ( mklink /d \"%userprofile%\@file\" @path ) else ( mklink \"%userprofile%\@file\" @path )"
+    forfiles /P "%homedots%" /C "cmd /c echo @path"
+    echo wat
+    pause 
 )
 
 SET ahk_launcher=%dots%\ahk\ahk-launcher.ahk
@@ -95,7 +90,7 @@ if exist "%dots%\reg" (
     regedit.exe /s "%dots%\reg\caps-as-esc.reg"
 )
 
-rem #######################################################################################
+rem ############################################
 choco install keepassxc
 
 choco install clink
@@ -162,6 +157,19 @@ rem Manually: msys2
 
 :END
 
+rem ############################################
+rem additional links & post-install config:
+SET cyg_homedir=C:\tools\cygwin\home\%USERNAME%
+if exist "%cyg_homedir%" (
+    mklink "%cyg_homedir%\.gitconfig" "%userprofile%\.gitconfig"
+    :: mklink "%cyg_homedir%\.bashrc" "%userprofile%\.bashrc"
+) else (
+    echo [%cyg_homedir%] doesn't exist! won't symlink dotfiles from [%userprofile%\]
+    pause
+)
+
+
+rem ############################################
 echo To keep your system updated, run update-all.bat regularly from an administrator CMD.exe.
 echo .
 echo Follow the steps described at http://tech.brookins.info/2015/11/07/my-git-setup-in-windows.html to get git running with putty and an SSH key
