@@ -21,21 +21,24 @@ SET dest=%userprofile%\dev
 where choco.exe 1>nul 2>&1
 if %errorlevel% neq 0 (
     rem chocolatey is not installed, do it; from: https://github.com/chocolatey/choco/wiki/Installation
-    ::download install.ps1
-    %systemroot%\System32\WindowsPowerShell\v1.0\powershell.exe -NoProfile -ExecutionPolicy Bypass -Command^
-     "((new-object net.webclient).DownloadFile('https://chocolatey.org/install.ps1','%TEMP%\install.ps1'))"
-    ::run installer
-    %systemroot%\System32\WindowsPowerShell\v1.0\powershell.exe -NoProfile -ExecutionPolicy Bypass -Command^
-     "& '%TEMP%\install.ps1' %*"
+    ::download install.ps1:
+    ::powershell.exe -NoProfile -ExecutionPolicy Bypass -Command^
+    :: "((new-object net.webclient).DownloadFile('https://chocolatey.org/install.ps1','%TEMP%\install.ps1'))"
+    ::run installer:
+    ::powershell.exe -NoProfile -ExecutionPolicy Bypass -Command^
+    :: "& '%TEMP%\install.ps1' %*"
 
-    rem IF EXIST %ALLUSERSPROFILE%\chocolatey\bin SET PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin
-)
+     :: OR
+    @"powershell.exe" -NoProfile -InputFormat None -ExecutionPolicy Bypass -Command^
+     "iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))" && SET "PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin"
 
-where choco.exe 1>nul 2>&1
-if %errorlevel% neq 0 (
-    echo choco installation failed?
-    pause
-    exit 1
+    :: sanity:
+    where choco.exe 1>nul 2>&1
+    if %errorlevel% neq 0 (
+        echo choco installation failed?
+        pause
+        exit 1
+    )
 )
 
 choco feature enable -n=allowGlobalConfirmation
@@ -54,33 +57,45 @@ git config --global core.fscache true
 git config --global gc.auto 256
 git config --global core.commitGraph true
 
-rem pull our dotfiles:
+rem pull our dotfiles & private config:
 md "%dest%"
-git clone https://github.com/laur89/win_dots.git "%dest%/"
-echo done
-pause
-exit 1
+git clone https://github.com/laur89/win_dots.git "%dest%\win_dots"
+SET dots=%dest%\win_dots
 
+echo !!!! PULLING PRIVATE DOTS !!!!
+git clone https://bitbucket.org/layr/private-common.git "%dest%\private-common"
 
-
-
-
-SET ahk_launcher=%dest%\ahk\ahk-launcher.ahk
-if not exist "%ahk_launcher%" (
-    echo [%ahk_launcher%] doesn't exist - are you sure installer is in expected location?
-    echo or where dotfiles successfully pulled?
+rem link ssh/:
+SET ssh_loc=%dest%\private-common\ssh
+if not exist "%ssh_loc%" (
+    echo ["%ssh_loc%"] doesn't exist!
+    echo won't abort
     pause
-    exit 1
+) else (
+    mklink /d "%userprofile%\.ssh" "%ssh_loc%"
 )
 
-rem install ahk script that'll be auto-starting apps during system startup:
-mklink "%appdata%\Microsoft\Windows\Start Menu\Programs\Startup\ahk-launcher" "%ahk_launcher%"
+rem link dotfiles to ~/:
+SET homedots=%dots%\home
+if exist "%homedots%" (
+    rem pushd "%homedots%"
+    rem for %%i in (*) do mklink /d "%userprofile%\" "%%i"
+    forfiles /P "%homedots%" /C "cmd /c if @isdir==TRUE ( mklink /d \"%userprofile%\@file\" @path ) else ( mklink \"%userprofile%\@file\" @path )"
+    rem popd
+)
+
+SET ahk_launcher=%dots%\ahk\ahk-launcher.ahk
+if exist "%ahk_launcher%" (
+    rem install ahk script that'll be auto-starting apps during system startup:
+    mklink "%appdata%\Microsoft\Windows\Start Menu\Programs\Startup\ahk-launcher" "%ahk_launcher%"
+)
 
 rem apply regedits:
-regedit.exe /s "%dest%\reg\caps-as-esc.reg"
-regedit.exe /s "%dest%\reg\disable-winkey-shortcuts.reg"
+if exist "%dots%\reg" (
+    regedit.exe /s "%dots%\reg\caps-as-esc.reg"
+)
 
-
+rem #######################################################################################
 choco install keepassxc
 
 choco install clink
