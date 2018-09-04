@@ -1,10 +1,10 @@
 # win_dots
-windows config &amp; bootstrapping logic
+windows setup &amp; bootstrapping
 
-download `install_win.bat` and run as admin.
+download `install_win.bat` and run as admin (ie right click -> admin)
 
 --------------
-# WSL quickstart (all commands from posh, no admin needed):
+## WSL quickstart (all commands from posh, no admin needed):
 
 1. unregister previous installation, if applicable: `wslconfig.exe /unregister Debian`
 1. `Invoke-WebRequest -Uri https://aka.ms/wsl-debian-gnulinux -OutFile debian.appx -UseBasicParsing`
@@ -14,7 +14,11 @@ download `install_win.bat` and run as admin.
 1. `.\debian.exe`
 
 1. `sudo apt-get update`
-1. `sudo apt-get install ca-certificates`
+1. `sudo apt-get install ca-certificates openssh-client`
 1. follow instructions from /dotfiles:
-  - `wget ...raw//wanted-branch/...install_system.sh`
-  - (likely last step, confirm): `./install_system <mode>`
+   - `wget ...raw//wanted-branch/...install_system.sh`
+   - (likely last step, confirm): `./install_system <mode>`
+
+
+### TODO:
+1. yarn repo addition causes `apt-get update` to hang;
