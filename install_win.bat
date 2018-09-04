@@ -166,7 +166,7 @@ rem ############################################
 rem additional links & post-install config:
 SET cyg_homedir=C:\tools\cygwin\home\%USERNAME%
 if exist "%cyg_homedir%" (
-    call:mkl "%cyg_homedir%\.gitconfig" "%userprofile%\.gitconfig"
+    for %%s in (".gitconfig" ".bashrc" ".inputrc" ".ssh") do call:mkl "%cyg_homedir%\%%s" "%userprofile%\%%s"
 ) else (
     echo [%cyg_homedir%] doesn't exist! won't symlink dotfiles from [%userprofile%\]
     pause
