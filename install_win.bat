@@ -192,7 +192,6 @@ rem ############################################
 SETLOCAL
 set "f=%~1"
 
-echo "in rm, checking existance of [%f%]"
 if exist "%f%\*" (
     rmdir /s /q "%f%"
 ) else if exist "%f%" (
@@ -220,10 +219,8 @@ if exist "%t%" (
 )
 
 if exist "%s%\*" (
-    echo "creating dir link [%s% -> %t%]"
     mklink /d "%t%" "%s%"
 ) else if exist "%s%" (
-    echo "creating file link [%s% -> %t%]"
     mklink "%t%" "%s%"
 ) else (
     echo "unable to link - source [%s%] doesn't exist! (wont't abort)"
