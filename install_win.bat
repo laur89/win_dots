@@ -51,10 +51,13 @@ call refreshenv
 
 rem pull our dotfiles & private config:
 md "%dest%"
+::cloneOrPull https://github.com/laur89/win_dots.git "%dest%\win_dots"
 git clone https://github.com/laur89/win_dots.git "%dest%\win_dots"
 SET dots=%dest%\win_dots
 
+:: TODO:: need work, not privat edots !!!
 echo !!!! PULLING PRIVATE DOTS !!!!
+::cloneOrPull https://bitbucket.org/layr/private-common.git "%dest%\private-common"
 git clone https://bitbucket.org/layr/private-common.git "%dest%\private-common"
 
 rem link ssh/:
@@ -64,7 +67,9 @@ if not exist "%ssh_loc%" (
     echo won't abort
     pause
 ) else (
-    mklink /d "%userprofile%\.ssh" "%ssh_loc%"
+    call:rm "%userprofile%\.ssh"
+    ::mklink /d "%userprofile%\.ssh" "%ssh_loc%"
+    call:mkl "%userprofile%\.ssh" "%ssh_loc%"
 )
 
 rem link dotfiles to ~/:
@@ -73,16 +78,17 @@ if exist "%homedots%" (
     rem pushd "%homedots%"
     rem for %%i in (*) do mklink /d "%userprofile%\" "%%i"
     rem popd
+    rem TODO: find how to delete target beforehand; tried modifying this command, and that was scary!
     forfiles /P "%homedots%" /C "cmd /c if @isdir==TRUE ( mklink /d \"%userprofile%\@file\" @path ) else ( mklink \"%userprofile%\@file\" @path )"
-    forfiles /P "%homedots%" /C "cmd /c echo @path"
-    echo wat
-    pause 
+    rem forfiles /P "%homedots%" /C "cmd /c echo @path" 
 )
 
 SET ahk_launcher=%dots%\ahk\ahk-launcher.ahk
+set "f=%appdata%\Microsoft\Windows\Start Menu\Programs\Startup\ahk-launcher"
 if exist "%ahk_launcher%" (
     rem install ahk script that'll be auto-starting apps during system startup:
-    mklink "%appdata%\Microsoft\Windows\Start Menu\Programs\Startup\ahk-launcher" "%ahk_launcher%"
+    call:rm "%f%"
+    call:mkl "%f%" "%ahk_launcher%"
 )
 
 rem apply regedits:
@@ -161,8 +167,9 @@ rem ############################################
 rem additional links & post-install config:
 SET cyg_homedir=C:\tools\cygwin\home\%USERNAME%
 if exist "%cyg_homedir%" (
-    mklink "%cyg_homedir%\.gitconfig" "%userprofile%\.gitconfig"
-    :: mklink "%cyg_homedir%\.bashrc" "%userprofile%\.bashrc"
+    call:rm "%cyg_homedir%\.gitconfig"
+    call:mkl "%cyg_homedir%\.gitconfig" "%userprofile%\.gitconfig"
+    rem mklink "%cyg_homedir%\.bashrc" "%userprofile%\.bashrc"
 ) else (
     echo [%cyg_homedir%] doesn't exist! won't symlink dotfiles from [%userprofile%\]
     pause
@@ -176,3 +183,69 @@ echo Follow the steps described at http://tech.brookins.info/2015/11/07/my-git-s
 echo Optional: Afterwards, follow the instructions at https://github.com/tj/git-extras/blob/master/Installation.md#windows to install git-extras
 echo .
 pause
+
+rem ############################################
+:: Funcs
+rem ############################################
+
+
+:rm    -- remove file or dir if exists
+::                 -- %~1: file or dir to delete
+SETLOCAL
+set f=%~1
+
+if exist "%f%\*" (
+    rmdir /s /q "%f%"
+) else if exist "%f%" (
+    del /s /q "%f%"
+)
+
+ENDLOCAL
+GOTO:EOF
+
+
+:mkl    -- create link
+::                 -- %~1: file or dir to delete
+SETLOCAL
+set "t=%~1"
+set "s=%~2"
+
+if exist "%t%" (
+    echo "error: link target [%t%] already exists - was rm called beforehand?; fix script"
+    pause
+    exit
+)
+
+if exist "%s%\*" (
+    echo "creating dir link [%s% -> %t%]"
+    mklink /d "%t%" "%s%"
+) else if exist "%s%" (
+    echo "creating file link [%s% -> %t%]"
+    mklink "%t%" "%s%"
+) else (
+    echo unable to link - source [%s%] doesn't exist
+    pause
+    exit
+)
+
+ENDLOCAL
+GOTO:EOF
+
+
+:cloneOrPull    -- clone or pull repo
+::                 -- %~1: file or dir to delete
+SETLOCAL
+set repo=%~1
+set dir=%~2
+
+if exist "%dir%" (
+    pushd "%dir%"
+    git pull
+    rem TODO check err lvl
+    popd
+) else (
+    git clone "%repo%" "%dir%"
+)
+
+ENDLOCAL
+GOTO:EOF
