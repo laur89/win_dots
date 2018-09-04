@@ -16,5 +16,5 @@ download `install_win.bat` and run as admin.
 1. `sudo apt-get update`
 1. `sudo apt-get install ca-certificates`
 1. follow instructions from /dotfiles:
-  1. `wget ...raw//wanted-branch/...install_system.sh`
-  1. (likely last step, confirm): `./install_system <mode>`
+  - `wget ...raw//wanted-branch/...install_system.sh`
+  - (likely last step, confirm): `./install_system <mode>`
