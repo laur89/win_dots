@@ -67,8 +67,6 @@ if not exist "%ssh_loc%" (
     echo won't abort
     pause
 ) else (
-    call:rm "%userprofile%\.ssh"
-    ::mklink /d "%userprofile%\.ssh" "%ssh_loc%"
     call:mkl "%userprofile%\.ssh" "%ssh_loc%"
 )
 
@@ -78,17 +76,15 @@ if exist "%homedots%" (
     rem pushd "%homedots%"
     rem for %%i in (*) do mklink /d "%userprofile%\" "%%i"
     rem popd
-    rem TODO: find how to delete target beforehand; tried modifying this command, and that was scary!
-    forfiles /P "%homedots%" /C "cmd /c if @isdir==TRUE ( mklink /d \"%userprofile%\@file\" @path ) else ( mklink \"%userprofile%\@file\" @path )"
+    
+    rem forfiles /P "%homedots%" /C "cmd /c if @isdir==TRUE ( if exists \"file\" ( del /s /q \"file\" ) & mklink /d \"%userprofile%\@file\" @path ) else ( mklink \"%userprofile%\@file\" @path )"
     rem forfiles /P "%homedots%" /C "cmd /c echo @path" 
 )
 
 SET ahk_launcher=%dots%\ahk\ahk-launcher.ahk
-set "f=%appdata%\Microsoft\Windows\Start Menu\Programs\Startup\ahk-launcher"
 if exist "%ahk_launcher%" (
     rem install ahk script that'll be auto-starting apps during system startup:
-    call:rm "%f%"
-    call:mkl "%f%" "%ahk_launcher%"
+    call:mkl "%appdata%\Microsoft\Windows\Start Menu\Programs\Startup\ahk-launcher" "%ahk_launcher%"
 )
 
 rem apply regedits:
@@ -167,9 +163,7 @@ rem ############################################
 rem additional links & post-install config:
 SET cyg_homedir=C:\tools\cygwin\home\%USERNAME%
 if exist "%cyg_homedir%" (
-    call:rm "%cyg_homedir%\.gitconfig"
     call:mkl "%cyg_homedir%\.gitconfig" "%userprofile%\.gitconfig"
-    rem mklink "%cyg_homedir%\.bashrc" "%userprofile%\.bashrc"
 ) else (
     echo [%cyg_homedir%] doesn't exist! won't symlink dotfiles from [%userprofile%\]
     pause
@@ -184,6 +178,7 @@ echo Optional: Afterwards, follow the instructions at https://github.com/tj/git-
 echo .
 pause
 
+GOTO:EOF
 rem ############################################
 :: Funcs
 rem ############################################
@@ -192,11 +187,16 @@ rem ############################################
 :rm    -- remove file or dir if exists
 ::                 -- %~1: file or dir to delete
 SETLOCAL
-set f=%~1
+set "f=%~1"
 
+echo "in rm, checking existance of [%f%]"
 if exist "%f%\*" (
+    echo "about to delete dir [%f%\]..."
+    pause
     rmdir /s /q "%f%"
 ) else if exist "%f%" (
+    echo "about to delete file [%f%]..."
+    pause
     del /s /q "%f%"
 )
 
@@ -204,14 +204,21 @@ ENDLOCAL
 GOTO:EOF
 
 
-:mkl    -- create link
-::                 -- %~1: file or dir to delete
+:mkl    -- create link; target is deleted beforehand if it already exists.
+::                 -- %~1: target link to file
+::                 -- %~2: source file/dir to create link for
 SETLOCAL
 set "t=%~1"
 set "s=%~2"
 
+call:rm "%t%"
+
+echo donzo
+pause
+
+:: sanity:
 if exist "%t%" (
-    echo "error: link target [%t%] already exists - was rm called beforehand?; fix script"
+    echo "error: link target [%t%] already exists - did rm() fail?"
     pause
     exit
 )
@@ -223,7 +230,7 @@ if exist "%s%\*" (
     echo "creating file link [%s% -> %t%]"
     mklink "%t%" "%s%"
 ) else (
-    echo unable to link - source [%s%] doesn't exist
+    echo "unable to link - source [%s%] doesn't exist"
     pause
     exit
 )
