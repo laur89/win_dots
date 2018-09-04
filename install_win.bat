@@ -77,8 +77,11 @@ if exist "%homedots%" (
     rem for %%i in (*) do mklink /d "%userprofile%\" "%%i"
     rem popd
     
-    rem forfiles /P "%homedots%" /C "cmd /c if @isdir==TRUE ( if exists \"file\" ( del /s /q \"file\" ) & mklink /d \"%userprofile%\@file\" @path ) else ( mklink \"%userprofile%\@file\" @path )"
-    rem forfiles /P "%homedots%" /C "cmd /c echo @path" 
+    rem TODO: will break with spaces:
+    forfiles /P "%homedots%" /C "cmd /c if @isdir==TRUE ( rmdir /s /q \"%userprofile%\@file\" & mklink /d \"%userprofile%\@file\" @path ) else ( del /s /q \"%userprofile%\@file\" & mklink \"%userprofile%\@file\" @path )"
+    rem forfiles /P "%homedots%" /C "cmd /c if @isdir==TRUE ( if exist \"%userprofile%\@file\" ( rmdir /s /q \"%userprofile%\@file\" ) & mklink /d \"%userprofile%\@file\" @path )"
+    rem forfiles /P "%homedots%" /C "cmd /c if @isdir==TRUE ( if exists \"%userprofile%\@file\" ( del /s /q \"%userprofile%\@file\" ) & mklink \"%userprofile%\@file\" @path )"
+    rem forfiles /P "%homedots%" /C "cmd /c if @isdir==TRUE ( if exists \"@path\*\" ( rmdir /s /q \"@path\" ) & mklink /d \"%userprofile%\@file\" @path ) else ( if exists \"@path\" ( del /s /q \"@path\" ) & mklink \"%userprofile%\@file\" @path )"
 )
 
 SET ahk_launcher=%dots%\ahk\ahk-launcher.ahk
@@ -191,12 +194,8 @@ set "f=%~1"
 
 echo "in rm, checking existance of [%f%]"
 if exist "%f%\*" (
-    echo "about to delete dir [%f%\]..."
-    pause
     rmdir /s /q "%f%"
 ) else if exist "%f%" (
-    echo "about to delete file [%f%]..."
-    pause
     del /s /q "%f%"
 )
 
@@ -213,9 +212,6 @@ set "s=%~2"
 
 call:rm "%t%"
 
-echo donzo
-pause
-
 :: sanity:
 if exist "%t%" (
     echo "error: link target [%t%] already exists - did rm() fail?"
@@ -230,9 +226,8 @@ if exist "%s%\*" (
     echo "creating file link [%s% -> %t%]"
     mklink "%t%" "%s%"
 ) else (
-    echo "unable to link - source [%s%] doesn't exist"
+    echo "unable to link - source [%s%] doesn't exist! (wont't abort)"
     pause
-    exit
 )
 
 ENDLOCAL
