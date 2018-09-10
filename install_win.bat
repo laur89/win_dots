@@ -47,6 +47,11 @@ choco install cygwin
 :: choco install cygwin --params "/InstallDir:C:\cygwin"
 choco install cyg-get
 choco install git.install --params "/GitAndUnixToolsOnPath"
+if not exist "%userprofile%\.gitconfig" (
+    :: most likely our first run, add temporary git settings until config is pulled:
+    git config --global core.safecrlf true
+    git config --global core.autocrlf input
+)
 call refreshenv
 
 rem pull our dotfiles & private config:
@@ -108,6 +113,8 @@ rem choco install qttabbar
 
 choco install sublimetext3 
 choco install vscode
+choco install greenshot
+choco install ditto
 
 rem choco install jdk8 jre8
 rem choco install jetbrainstoolbox
@@ -176,9 +183,6 @@ if exist "%cyg_homedir%" (
 rem ############################################
 echo To keep your system updated, run update-all.bat regularly from an administrator CMD.exe.
 echo .
-echo Follow the steps described at http://tech.brookins.info/2015/11/07/my-git-setup-in-windows.html to get git running with putty and an SSH key
-echo Optional: Afterwards, follow the instructions at https://github.com/tj/git-extras/blob/master/Installation.md#windows to install git-extras
-echo .
 pause
 
 GOTO:EOF
@@ -234,8 +238,8 @@ GOTO:EOF
 :cloneOrPull    -- clone or pull repo
 ::                 -- %~1: file or dir to delete
 SETLOCAL
-set repo=%~1
-set dir=%~2
+set "repo=%~1"
+set "dir=%~2"
 
 if exist "%dir%" (
     pushd "%dir%"
@@ -244,6 +248,7 @@ if exist "%dir%" (
     popd
 ) else (
     git clone "%repo%" "%dir%"
+    rem TODO check err lvl
 )
 
 ENDLOCAL
