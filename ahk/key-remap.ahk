@@ -13,3 +13,8 @@ GroupAdd, ctrlAltRemap, ahk_class MozillaWindowClass
 	!8::Send ^8
 	!9::Send ^9
 #If
+
+;;; keepass remap
+#IfWinActive ahk_class VcXsrv/x
+	!q::Send #e
+#If
