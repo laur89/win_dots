@@ -32,8 +32,8 @@ if not (A_IsAdmin or RegExMatch(full_command_line, " /restart(?!\S)"))
   SetDisableLockWorkstationRegKeyValue( 1 )
 
   ; Lock the screen if system has been idle:
-  IdleCheckLoopMs := 5000
-  LockIdleMs := 60000
+  IdleCheckLoopMs := 10 * 1000
+  LockIdleMs := 10 * 60 * 1000
   SetOrRemoveLockScreenTimer(true)
   ; following lock state listener from https://autohotkey.com/boards/viewtopic.php?t=8023:
   WM_WTSSESSION_CHANGE(wParam, lParam, Msg, hWnd){
