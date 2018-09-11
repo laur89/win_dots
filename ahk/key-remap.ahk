@@ -1,3 +1,5 @@
+#NoEnv
+
 GroupAdd, ctrlAltRemap, ahk_class Chrome_WidgetWin_1
 GroupAdd, ctrlAltRemap, ahk_class MozillaWindowClass
 
@@ -14,7 +16,11 @@ GroupAdd, ctrlAltRemap, ahk_class MozillaWindowClass
 	!9::Send ^9
 #If
 
-;;; keepass remap
+;;; remap keys for xsrv:
 #IfWinActive ahk_class VcXsrv/x
 	!q::Send #e
+	; ctrl+ü:
+	;^SC01A::Send #e
+	^SC01A::ControlSend,, SC01A, ahk_class VcXsrv/x
+	;^SC01A::ControlSend, VcXsrv/x, a
 #If

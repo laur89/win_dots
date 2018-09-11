@@ -1,3 +1,5 @@
+#NoEnv
+
 full_command_line := DllCall("GetCommandLine", "str")
 
 ; restart script as admin, if not already:
@@ -15,7 +17,6 @@ if not (A_IsAdmin or RegExMatch(full_command_line, " /restart(?!\S)"))
 
 ;MsgBox A_IsAdmin: %A_IsAdmin%`nCommand line: %full_command_line%
 
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; from https://superuser.com/questions/726988/how-to-remap-a-program-to-lock-windows-winl/727170#727170
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -29,6 +30,38 @@ if not (A_IsAdmin or RegExMatch(full_command_line, " /restart(?!\S)"))
 
   ; Disable LockWorkStation, so Windows doesn't intercept Win+L and this script can act on that key combination 
   SetDisableLockWorkstationRegKeyValue( 1 )
+
+  ; Lock the screen if system has been idle:
+  IdleCheckLoopMs := 5000
+  LockIdleMs := 60000
+  SetLockScreenTimer(true)
+  ; following from https://autohotkey.com/boards/viewtopic.php?t=8023:
+  WM_WTSSESSION_CHANGE(wParam, lParam, Msg, hWnd){
+    static init:=(DllCall( "Wtsapi32.dll\WTSRegisterSessionNotification", UInt, A_ScriptHwnd, UInt, 1) && OnMessage(0x02B1, "WM_WTSSESSION_CHANGE"))
+    
+    If (wParam=0x6 || wParam=0x7){ ;Logoff or lock
+      ;Run, powercfg -change -monitor-timeout-ac 1,,Hide ;Set monitor standby timeout to 1 minute
+      ;SendMessage,0x112,0xF170,2,,Program Manager ;Monitor Standby
+      SetLockScreenTimer(false)
+    }Else If (wParam=0x5 || wParam=0x8){ ;Logon or unlock
+      ;Run, powercfg -change -monitor-timeout-ac 20,,Hide ;Set monitor standby timeout to 20 minutes
+      SetLockScreenTimer(true)
+    }
+
+      
+        /*
+        wParam::::::
+        WTS_CONSOLE_CONNECT := 0x1 ; A session was connected to the console terminal.
+        WTS_CONSOLE_DISCONNECT := 0x2 ; A session was disconnected from the console terminal.
+        WTS_REMOTE_CONNECT := 0x3 ; A session was connected to the remote terminal.
+        WTS_REMOTE_DISCONNECT := 0x4 ; A session was disconnected from the remote terminal.
+        WTS_SESSION_LOGON := 0x5 ; A user has logged on to the session.
+        WTS_SESSION_LOGOFF := 0x6 ; A user has logged off the session.
+        WTS_SESSION_LOCK := 0x7 ; A session has been locked.
+        WTS_SESSION_UNLOCK := 0x8 ; A session has been unlocked.
+        WTS_SESSION_REMOTE_CONTROL := 0x9 ; A session has changed its remote controlled status. To determine the status, call GetSystemMetrics and check the SM_REMOTECONTROL metric.
+        */
+}
 return
 
 #l::
@@ -115,3 +148,24 @@ LockScreen()
     ; Hibernate:
     ;DllCall("PowrProf\SetSuspendState", "int", 1, "int", 0, "int", 0)
     return
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; screensaver - lock computer after X time of idle
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+SetLockScreenTimer(doSet){
+  if (doSet){
+        SetTimer, LockIfIdleLongEnough, %IdleCheckLoopMs%
+  } else {
+        SetTimer, LockIfIdleLongEnough, Off
+  }
+  }
+
+LockIfIdleLongEnough:
+If (A_TimeIdle>=LockIdleMs)
+{
+    ;MsgBox, gonnalock in 5s
+    ;Sleep, 5000
+    LockScreen()
+}
+return

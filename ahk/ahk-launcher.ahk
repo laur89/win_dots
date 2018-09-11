@@ -1,5 +1,8 @@
 ; to be executed by symlink in %appdata%...\Startup dir
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; give some time so we could stop faulty scripts at startups:
+Sleep, 10000
+
 Run "%A_AHKPath%" "%A_ScriptDir%\xserver-prep.ahk"
 Run "%A_AHKPath%" "%A_ScriptDir%\key-remap.ahk"
 
