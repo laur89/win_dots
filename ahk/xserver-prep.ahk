@@ -104,6 +104,7 @@ LockScreen()
 
 ; Win+F12 - Lock and sleep
 #F12::
+#Delete::
     ; Lock:
     ;Run rundll32.exe user32.dll,LockWorkStation
     LockScreen()
