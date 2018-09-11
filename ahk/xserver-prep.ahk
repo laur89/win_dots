@@ -34,18 +34,18 @@ if not (A_IsAdmin or RegExMatch(full_command_line, " /restart(?!\S)"))
   ; Lock the screen if system has been idle:
   IdleCheckLoopMs := 5000
   LockIdleMs := 60000
-  SetLockScreenTimer(true)
-  ; following from https://autohotkey.com/boards/viewtopic.php?t=8023:
+  SetOrRemoveLockScreenTimer(true)
+  ; following lock state listener from https://autohotkey.com/boards/viewtopic.php?t=8023:
   WM_WTSSESSION_CHANGE(wParam, lParam, Msg, hWnd){
     static init:=(DllCall( "Wtsapi32.dll\WTSRegisterSessionNotification", UInt, A_ScriptHwnd, UInt, 1) && OnMessage(0x02B1, "WM_WTSSESSION_CHANGE"))
     
     If (wParam=0x6 || wParam=0x7){ ;Logoff or lock
       ;Run, powercfg -change -monitor-timeout-ac 1,,Hide ;Set monitor standby timeout to 1 minute
       ;SendMessage,0x112,0xF170,2,,Program Manager ;Monitor Standby
-      SetLockScreenTimer(false)
+      SetOrRemoveLockScreenTimer(false)
     }Else If (wParam=0x5 || wParam=0x8){ ;Logon or unlock
       ;Run, powercfg -change -monitor-timeout-ac 20,,Hide ;Set monitor standby timeout to 20 minutes
-      SetLockScreenTimer(true)
+      SetOrRemoveLockScreenTimer(true)
     }
 
       
@@ -124,7 +124,7 @@ LockScreen() {
 
 ; [1]: http://www.autohotkey.com/
 
-
+/*
 ; Win+Shift+F12 - Sleep
 #+F12::
     ; Sleep/Suspend:
@@ -132,8 +132,9 @@ LockScreen() {
     ; Hibernate:
     ;DllCall("PowrProf\SetSuspendState", "int", 1, "int", 0, "int", 0)
     return
+*/
 
-; Win+F12 - Lock and sleep
+; Lock and sleep
 #F12::
 #Delete::
     ; Lock:
@@ -151,7 +152,7 @@ LockScreen() {
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; screensaver - lock computer after X time of idle
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-SetLockScreenTimer(doSet) {
+SetOrRemoveLockScreenTimer(doSet) {
     if (doSet) {
         SetTimer, LockIfIdleLongEnough, %IdleCheckLoopMs%
     } else {
