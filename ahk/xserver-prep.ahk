@@ -91,14 +91,12 @@ OnExitSub:
   ExitApp
 return
 
-SetDisableLockWorkstationRegKeyValue( value )
-  {
+SetDisableLockWorkstationRegKeyValue( value ) {
   ;MsgBox, regwrite %value%
   RegWrite, REG_DWORD, HKEY_CURRENT_USER, Software\Microsoft\Windows\CurrentVersion\Policies\System, DisableLockWorkstation, %value%
   }
 
-LockScreen()
-  {
+LockScreen() {
   ; Temporary enable locking
   SetDisableLockWorkstationRegKeyValue( 0 )
   ; Lock
@@ -153,17 +151,16 @@ LockScreen()
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; screensaver - lock computer after X time of idle
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-SetLockScreenTimer(doSet){
-  if (doSet){
+SetLockScreenTimer(doSet) {
+    if (doSet) {
         SetTimer, LockIfIdleLongEnough, %IdleCheckLoopMs%
-  } else {
+    } else {
         SetTimer, LockIfIdleLongEnough, Off
-  }
-  }
+    }
+}
 
 LockIfIdleLongEnough:
-If (A_TimeIdle>=LockIdleMs)
-{
+If (A_TimeIdle>=LockIdleMs) {
     ;MsgBox, gonnalock in 5s
     ;Sleep, 5000
     LockScreen()
