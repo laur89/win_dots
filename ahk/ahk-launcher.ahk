@@ -1,6 +1,8 @@
 ; to be executed by symlink in %appdata%...\Startup dir
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 Run "%A_AHKPath%" "%A_ScriptDir%\xserver-prep.ahk"
+Run "%A_AHKPath%" "%A_ScriptDir%\key-remap.ahk"
+
 Run "%A_ScriptDir%\..\config.xlaunch"
 
 ExitApp
