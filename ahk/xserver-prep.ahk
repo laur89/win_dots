@@ -122,8 +122,6 @@ LockScreen() {
 ; I don't have my PC set to require a password to resume, so I also have a
 ; second version (Win+Shift+F12) in case I want to lock the PC first.
 
-; [1]: http://www.autohotkey.com/
-
 /*
 ; Win+Shift+F12 - Sleep
 #+F12::

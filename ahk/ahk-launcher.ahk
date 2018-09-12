@@ -1,6 +1,8 @@
-; to be executed by symlink in %appdata%...\Startup dir
+; to be executed by symlink in %appdata%...\Startup dir;
+; this script is likely managed by a system setup script,
+; so be careful when changing filename.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; give some time so we could stop faulty scripts at startups:
+; give some time so we could stop faulty scripts at startup:
 Sleep, 10000
 
 Run "%A_AHKPath%" "%A_ScriptDir%\xserver-prep.ahk"
