@@ -21,14 +21,6 @@ SET dest=%userprofile%\dev
 where choco.exe 1>nul 2>&1
 if %errorlevel% neq 0 (
     rem chocolatey is not installed, do it; from: https://github.com/chocolatey/choco/wiki/Installation
-    ::download install.ps1:
-    ::powershell.exe -NoProfile -ExecutionPolicy Bypass -Command^
-    :: "((new-object net.webclient).DownloadFile('https://chocolatey.org/install.ps1','%TEMP%\install.ps1'))"
-    ::run installer:
-    ::powershell.exe -NoProfile -ExecutionPolicy Bypass -Command^
-    :: "& '%TEMP%\install.ps1' %*"
-
-     :: OR
     @"powershell.exe" -NoProfile -InputFormat None -ExecutionPolicy Bypass -Command^
      "iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))" && SET "PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin"
 
