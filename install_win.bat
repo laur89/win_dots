@@ -48,17 +48,16 @@ call refreshenv
 
 rem pull our dotfiles & private config:
 md "%dest%"
-::cloneOrPull https://github.com/laur89/win_dots.git "%dest%\win_dots"
-git clone https://github.com/laur89/win_dots.git "%dest%\win_dots"
+call:cloneOrPull https://github.com/laur89/win_dots.git "%dest%\win_dots"
+::git clone https://github.com/laur89/win_dots.git "%dest%\win_dots"
 SET dots=%dest%\win_dots
 
-:: TODO:: need work, not privat edots !!!
 echo !!!! PULLING PRIVATE DOTS !!!!
 ::cloneOrPull https://bitbucket.org/layr/private-common.git "%dest%\private-common"
-git clone https://bitbucket.org/layr/private-common.git "%dest%\private-common"
+call:cloneOrPull https://git.nonprod.williamhill.plc/laliste/work_dotfiles.git "%dest%\work_dotfiles"
 
 rem link ssh/:
-SET ssh_loc=%dest%\private-common\ssh
+SET ssh_loc=%dest%\work_dotfiles\ssh
 if not exist "%ssh_loc%" (
     echo [%ssh_loc%] doesn't exist!
     echo won't abort
@@ -228,18 +227,20 @@ GOTO:EOF
 
 
 :cloneOrPull    -- clone or pull repo
-::                 -- %~1: file or dir to delete
+::                 -- %~1: https url of repo to clone
+::                 -- %~2: repo's target dir (local)
 SETLOCAL
 set "repo=%~1"
-set "dir=%~2"
+set "target_dir=%~2"
 
-if exist "%dir%" (
-    pushd "%dir%"
+if exist "%target_dir%" (
+    pushd "%target_dir%"
+    git pull
     git pull
     rem TODO check err lvl
     popd
 ) else (
-    git clone "%repo%" "%dir%"
+    git -c http.sslVerify=false clone "%repo%" "%target_dir%"
     rem TODO check err lvl
 )
 
