@@ -43,6 +43,7 @@ if not exist "%userprofile%\.gitconfig" (
     :: most likely our first run, add temporary git settings until config is pulled:
     git config --global core.safecrlf true
     git config --global core.autocrlf input
+    git config --global http.sslVerify false
 )
 call refreshenv
 
@@ -233,14 +234,22 @@ SETLOCAL
 set "repo=%~1"
 set "target_dir=%~2"
 
-if exist "%target_dir%" (
+if exist "%target_dir%\*" (
     pushd "%target_dir%"
     git pull
-    git pull
+    if %errorlevel% neq 0 (
+        :: first pull failed, let's retry...
+        git pull
+    )
+    
     rem TODO check err lvl
     popd
+) else if exist "%target_dir%" (
+    echo [%target_dir%] already exists, but is not a dir; cannot clone into it. abort.
+    pause
+    exit 1
 ) else (
-    git -c http.sslVerify=false clone "%repo%" "%target_dir%"
+    git clone "%repo%" "%target_dir%"
     rem TODO check err lvl
 )
 
