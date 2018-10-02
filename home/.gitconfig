@@ -15,3 +15,6 @@
 	safecrlf = true
 [gc]
 	auto = 256
+[http "https://git.nonprod.williamhill.plc"]
+	sslVerify = false
+	
