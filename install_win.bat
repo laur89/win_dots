@@ -38,6 +38,8 @@ choco feature enable -n=allowGlobalConfirmation
 choco install cygwin
 :: choco install cygwin --params "/InstallDir:C:\cygwin"
 choco install cyg-get
+cyg-get curl zip unzip
+
 choco install git.install --params "/GitAndUnixToolsOnPath"
 if not exist "%userprofile%\.gitconfig" (
     :: most likely our first run, add temporary git settings until config is pulled:
