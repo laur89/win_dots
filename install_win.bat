@@ -54,13 +54,14 @@ md "%dest%"
 call:cloneOrPull https://github.com/laur89/win_dots.git "%dest%\win_dots"
 ::git clone https://github.com/laur89/win_dots.git "%dest%\win_dots"
 SET dots=%dest%\win_dots
+SET work_dots=%dest%\work_dotfiles
 
 echo !!!! PULLING PRIVATE DOTS !!!!
 ::cloneOrPull https://bitbucket.org/layr/private-common.git "%dest%\private-common"
-call:cloneOrPull https://git.nonprod.williamhill.plc/laliste/work_dotfiles.git "%dest%\work_dotfiles"
+call:cloneOrPull https://git.nonprod.williamhill.plc/laliste/work_dotfiles.git "%work_dots%"
 
 rem link ssh/:
-SET ssh_loc=%dest%\work_dotfiles\ssh
+SET ssh_loc=%work_dots%\ssh
 if not exist "%ssh_loc%" (
     echo [%ssh_loc%] doesn't exist!
     echo won't abort
@@ -70,8 +71,9 @@ if not exist "%ssh_loc%" (
 )
 
 rem link dotfiles to ~/:
+rem first from common dots...
 SET homedots=%dots%\home
-if exist "%homedots%" (
+if exist "%homedots%\*" (
     rem pushd "%homedots%"
     rem for %%i in (*) do mklink /d "%userprofile%\" "%%i"
     rem popd
@@ -82,6 +84,16 @@ if exist "%homedots%" (
     rem forfiles /P "%homedots%" /C "cmd /c if @isdir==TRUE ( if exists \"%userprofile%\@file\" ( del /s /q \"%userprofile%\@file\" ) & mklink \"%userprofile%\@file\" @path )"
     rem forfiles /P "%homedots%" /C "cmd /c if @isdir==TRUE ( if exists \"@path\*\" ( rmdir /s /q \"@path\" ) & mklink /d \"%userprofile%\@file\" @path ) else ( if exists \"@path\" ( del /s /q \"@path\" ) & mklink \"%userprofile%\@file\" @path )"
 )
+rem ...followed by work dots:
+SET homedots=%work_dots%\home
+SET "managed_work_dots=.m2 .bash_aliases_overrides .bash_env_vars_overrides .bash_funs_overrides .npmrc .cx_config"
+if exist "%homedots%\*" (
+    for %%s in (%managed_work_dots%) do call:mkl "%userprofile%\%%s" "%homedots%\%%s"
+) else (
+    echo [%homedots%] doesn't exist! won't symlink dotfiles from [%homedots%\]
+    pause
+)
+
 
 SET ahk_launcher=%dots%\ahk\ahk-launcher.ahk
 if exist "%ahk_launcher%" (
@@ -90,7 +102,7 @@ if exist "%ahk_launcher%" (
 )
 
 rem apply regedits:
-if exist "%dots%\reg" (
+if exist "%dots%\reg\*" (
     regedit.exe /s "%dots%\reg\caps-as-esc.reg"
 )
 
@@ -167,8 +179,9 @@ rem Manually: msys2
 rem ############################################
 rem additional links & post-install config:
 SET cyg_homedir=C:\tools\cygwin\home\%USERNAME%
-if exist "%cyg_homedir%" (
+if exist "%cyg_homedir%\*" (
     for %%s in (".gitconfig" ".bashrc" ".inputrc" ".ssh" ".bash_aliases" ".bash_env_vars" ".bash_functions") do call:mkl "%cyg_homedir%\%%s" "%userprofile%\%%s"
+    for %%s in (%managed_work_dots%) do call:mkl "%cyg_homedir%\%%s" "%userprofile%\%%s"
 ) else (
     echo [%cyg_homedir%] doesn't exist! won't symlink dotfiles from [%userprofile%\]
     pause
