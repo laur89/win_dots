@@ -93,6 +93,7 @@ if exist "%dots%\reg" (
 )
 
 rem ############################################
+choco install gitkraken
 choco install keepassxc
 
 choco install clink
