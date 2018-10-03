@@ -126,3 +126,9 @@ set -o vi               # needs to be added *before* fzf is sourced, otherwise f
 
 unset MAILCHECK
 ##########################################
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="$HOME/.sdkman"
+if [[ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ]]; then
+    source "$SDKMAN_DIR/bin/sdkman-init.sh"
+fi
