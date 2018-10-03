@@ -126,6 +126,12 @@ set -o vi               # needs to be added *before* fzf is sourced, otherwise f
 
 unset MAILCHECK
 ##########################################
+# intelliJ IDEA terminal entrypoint logic
+# so the terminal starts in the project directory:
+if [[ "$INTELLIJ" == true ]]; then
+  cd -- "$OLDPWD"
+fi
+##########################################
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="$HOME/.sdkman"
