@@ -141,6 +141,10 @@ rem choco install poshgit
 rem choco install 7zip
 
 choco install fiddler
+choco install altdrag
+
+choco install erlang
+choco install rebar3
 rem choco install p4merge
 
 rem choco install f.lux

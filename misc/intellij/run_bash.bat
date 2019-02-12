@@ -10,4 +10,4 @@ bash --login -i
 
 REM This works in IntelliJ 16
 REM Change the shell path in IntelliJ's Tools > Terminal to:
-REM C:\path\to\this\script\run_bash.bat
+REM C:\path\to\this\script\run_bash.bat, eg. C:\Users\laur89\dev\win_dots\misc\intellij\run_bash.bat
