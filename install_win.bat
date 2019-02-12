@@ -108,6 +108,7 @@ if exist "%dots%\reg\*" (
 
 rem ############################################
 choco install gitkraken
+rem choco install p4merge
 choco install keepassxc
 
 choco install clink
@@ -123,7 +124,6 @@ choco install vscode
 choco install greenshot
 choco install ditto
 
-rem choco install jdk8 jre8
 rem choco install jetbrainstoolbox
 rem choco pin add -n=jetbrainstoolbox
 
@@ -145,7 +145,10 @@ choco install altdrag
 
 choco install erlang
 choco install rebar3
-rem choco install p4merge
+
+rem choco install zulu8
+rem choco install jdk8 jre8
+
 
 rem choco install f.lux
 rem choco install teamviewer
