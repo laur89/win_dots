@@ -38,7 +38,7 @@ choco feature enable -n=allowGlobalConfirmation
 choco install cygwin
 :: choco install cygwin --params "/InstallDir:C:\cygwin"
 choco install cyg-get
-call cyg-get curl zip unzip
+call cyg-get curl zip unzip bash tar gzip
 
 choco install git.install --params "/GitAndUnixToolsOnPath"
 if not exist "%userprofile%\.gitconfig" (
