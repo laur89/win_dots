@@ -32,7 +32,7 @@ if %errorlevel% neq 0 (
         exit 1
     )
 )
-
+    
 choco feature enable -n=allowGlobalConfirmation
 
 choco install cygwin
@@ -123,6 +123,7 @@ choco install sublimetext3
 choco install vscode
 choco install greenshot
 choco install ditto
+choco install fzf
 
 rem choco install jetbrainstoolbox
 rem choco pin add -n=jetbrainstoolbox
@@ -263,6 +264,10 @@ if exist "%target_dir%\*" (
     if %errorlevel% neq 0 (
         :: first pull failed, let's retry...
         git pull
+        if %errorlevel% neq 0 (
+            echo pulling [%repo%] in [%target_dir%] failed; won't abort, but check that out :(
+            pause
+       )
     )
     
     rem TODO check err lvl
