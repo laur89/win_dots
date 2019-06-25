@@ -38,7 +38,7 @@ choco feature enable -n=allowGlobalConfirmation
 choco install cygwin
 :: choco install cygwin --params "/InstallDir:C:\cygwin"
 choco install cyg-get
-call cyg-get curl zip unzip bash tar gzip
+call cyg-get curl zip unzip bash tar gzip jq
 
 choco install git.install --params "/GitAndUnixToolsOnPath"
 if not exist "%userprofile%\.gitconfig" (
@@ -146,6 +146,10 @@ choco install altdrag
 
 choco install erlang
 choco install rebar3
+
+choco install python
+rem choco install python --version 3.6.8 
+rem choco install pip
 
 rem choco install zulu8
 rem choco install jdk8 jre8
