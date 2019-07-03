@@ -1,5 +1,6 @@
 @echo off
 rem original ver stolen from https://github.com/koppor/koppors-chocolatey-scripts/blob/master/install.bat; thanks @koppor
+rem -- to upgrade choco pkgs only, run      $ choco upgrade all
 
 echo This will first install chocolatey, then other tools
 echo .
@@ -124,6 +125,7 @@ choco install vscode
 choco install greenshot
 choco install ditto
 choco install fzf
+choco install wsltty
 
 rem choco install jetbrainstoolbox
 rem choco pin add -n=jetbrainstoolbox
