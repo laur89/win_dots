@@ -39,6 +39,7 @@ choco feature enable -n=allowGlobalConfirmation
 choco install cygwin
 :: choco install cygwin --params "/InstallDir:C:\cygwin"
 choco install cyg-get
+:: TODO: cyg-get should be only called form cygwin terminal?:
 call cyg-get curl zip unzip bash tar gzip jq
 
 choco install git.install --params "/GitAndUnixToolsOnPath"
@@ -123,6 +124,7 @@ rem choco install qttabbar
 choco install sublimetext3 
 choco install vscode
 choco install greenshot
+choco install obs-studio
 choco install ditto
 choco install fzf
 choco install wsltty
