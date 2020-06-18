@@ -15,8 +15,22 @@ Only to be used _instead of_ hyper-v - 64b vbox & hyper-v are mutually exclusive
 
 ## misc
 
-Regardless whether vbox or hyper-v, if you're still in early stages of installation (or are recovering from snapshot)
+### Networking not working
+
+Regardless whether vbox or hyper-v, if you're still in _early stages of installation_ (or are recovering from snapshot)
 and network's not working:
 
 1. check you interface: `cat /etc/network/interfaces`, likely it'll be enp0s3;
 1. bump it: `/sbin/ifdown enp0s3` & `/sbin/ifup enp0s3`
+
+### vbox: can't enable nested virtualisation 
+
+if `System->Processor->Enable Nested VT-x/AMD-V` tickbox is grayed out, the need to start vbox with a flag as per [this comment](https://stackoverflow.com/a/57229749/1803648):
+```
+   In Windows, go to VirtualBox installation folders -> type cmd on the bar (it will pop up cmd in that folder);
+   -> type:
+       VBoxManage modifyvm YourVirtualBoxName --nested-hw-virt on
+   -> enter.
+
+   Now it should been ticked.
+```
