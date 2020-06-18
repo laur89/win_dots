@@ -6,6 +6,8 @@ download `install_win.bat` and run as admin (ie right click -> admin)
 --------------
 ## WSL quickstart (all commands from posh, no admin needed):
 
+!TODO: [WSL2 is out](https://docs.microsoft.com/en-us/windows/wsl/install-win10), review the process!!
+
 1. unregister previous installation, if applicable: `wslconfig.exe /unregister Debian`
 1. `Invoke-WebRequest -Uri https://aka.ms/wsl-debian-gnulinux -OutFile debian.appx -UseBasicParsing`
 1. `Rename-Item .\debian.appx debian.zip`
