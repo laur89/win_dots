@@ -10,6 +10,9 @@
 # vbox
 
 Only to be used _instead of_ hyper-v - 64b vbox & hyper-v are mutually exclusive.
+For work devbox, you'll want minimum of `80g` drive, 90g would be even better.
+Note for vbox we don't create separate partition for `/data`. Maybe would make
+sense to start doing that, and create separate .vdi for it?
 
 1. 
 
