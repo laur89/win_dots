@@ -6,14 +6,14 @@ download `install_win.bat` and run as admin (ie right click -> admin)
 --------------
 ## WSL quickstart (all commands from posh, no admin needed):
 
-!TODO: [WSL2 is out](https://docs.microsoft.com/en-us/windows/wsl/install-win10), review the process!!
+**!TODO: [WSL2 is out](https://docs.microsoft.com/en-us/windows/wsl/install-win10), review the process!!**
 
 1. unregister previous installation, if applicable: `wslconfig.exe /unregister Debian`
 1. `Invoke-WebRequest -Uri https://aka.ms/wsl-debian-gnulinux -OutFile debian.appx -UseBasicParsing`
 1. `Rename-Item .\debian.appx debian.zip`
 1. `Expand-Archive .\debian.zip 'C:\distros\debian'`
 1. `cd C:\distros\debian\`
-1. `.\debian.exe`
+1. `.\debian.exe` (or just `..\..\distros\debian\debian.exe`)
 
 1. `sudo apt-get update`
 1. `sudo apt-get install ca-certificates openssh-client`
