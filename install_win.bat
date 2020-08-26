@@ -227,10 +227,10 @@ SETLOCAL
 set "f=%~1"
 
 if exist "%f%" (
-    del /q "%f%" 2> nul
+    rmdir /s /q "%f%" 2> nul
     if exist "%f%" (
         :: assuming it's directory:
-        rmdir /s /q "%f%" 2> nul
+        del /q "%f%" 2> nul
     )
 )
 
