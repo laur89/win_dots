@@ -210,6 +210,7 @@ if exist "%cyg_homedir%\*" (
 
 
 rem ############################################
+echo .
 echo To keep your system updated, run update-all.bat regularly from an administrator CMD.exe.
 echo .
 pause
@@ -248,11 +249,12 @@ call:rm "%t%"
 
 :: sanity:
 if exist "%t%" (
-    echo "error: link target [%t%] already exists - did rm() fail?"
+    echo "error: link target [%t%] already exists - did rm() fail? aborting."
     pause
     exit
 )
 
+:: TODO: improve logic for is-directory checking
 if exist "%s%\*" (
     mklink /d "%t%" "%s%"
 ) else if exist "%s%" (

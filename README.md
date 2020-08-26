@@ -1,7 +1,16 @@
 # win_dots
 windows setup &amp; bootstrapping
 
-download `install_win.bat` and run as admin (ie right click -> admin)
+- download `install_win.bat` and run as admin (ie right click -> admin); note
+  it's important to just download the file instead of git clone - otherwise the
+  linefeeds might be hecked up; so just pull the file and remove it afterwards;
+  later on you can run it from now-pulled `win_dots/` (ie this repo).
+- if git clone is giving you error
+
+    remote: HTTP Basic: Access denied fatal: Authentication failed for
+
+  then you've likely changed your windows/GroupAD password, and that needs to
+  [be updated in Windows Credential Manager](https://stackoverflow.com/a/52092795/1803648)
 
 --------------
 ## WSL quickstart (all commands from posh, no admin needed):
