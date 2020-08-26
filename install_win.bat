@@ -227,9 +227,11 @@ SETLOCAL
 set "f=%~1"
 
 if exist "%f%" (
+    :: make sure to first rmdir, _then_ del; otherwise if %f% is a symlink to a dir,
+    :: then del would first remove all the regular files in target!
     rmdir /s /q "%f%" 2> nul
     if exist "%f%" (
-        :: assuming it's directory:
+        :: assuming it's regular file:
         del /q "%f%" 2> nul
     )
 )
@@ -287,7 +289,6 @@ if exist "%target_dir%\*" (
        )
     )
     
-    rem TODO check err lvl
     popd
 ) else if exist "%target_dir%" (
     echo [%target_dir%] already exists, but is not a dir; cannot clone into it. abort.
@@ -295,7 +296,10 @@ if exist "%target_dir%\*" (
     exit 1
 ) else (
     git clone "%repo%" "%target_dir%"
-    rem TODO check err lvl
+    if %errorlevel% neq 0 (
+        echo cloning [%repo%] failed; won't abort, but check what's up
+        pause
+    )
 )
 
 ENDLOCAL
