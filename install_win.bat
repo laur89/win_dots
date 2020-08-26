@@ -43,6 +43,21 @@ choco install cyg-get
 call cyg-get curl zip unzip bash tar gzip jq
 
 choco install git.install --params "/GitAndUnixToolsOnPath"
+
+:: remvove .gitconfig in case it's dead symlink; in that case subsequent git commands would fail;  # TODO find out how to detect dead symlinks! (note the commented out block below does not work)
+call:rm "%userprofile%\.gitconfig"
+::if exist "%userprofile%\.gitconfig" (
+::    fsutil file queryfileid "%userprofile%\.gitconfig" 2> nul
+::    if %ERRORLEVEL% neq 0 (
+::        :: we have dead link, make sure to remove it! otherwise our git commands will fail!
+::        echo yooo gonna delete gitconfig link
+::        pause
+::        call:rm "%userprofile%\.gitconfig"
+::        echo yooosup rm called
+::        pause
+::    )
+::)
+
 if not exist "%userprofile%\.gitconfig" (
     :: most likely our first run, add temporary git settings until config is pulled:
     git config --global core.safecrlf true
@@ -62,16 +77,6 @@ echo !!!! PULLING PRIVATE DOTS !!!!
 ::cloneOrPull https://bitbucket.org/layr/private-common.git "%dest%\private-common"
 call:cloneOrPull https://git.nonprod.williamhill.plc/laliste/work_dotfiles.git "%work_dots%"
 
-rem link ssh/:
-SET ssh_loc=%work_dots%\ssh
-if not exist "%ssh_loc%" (
-    echo [%ssh_loc%] doesn't exist!
-    echo won't abort
-    pause
-) else (
-    call:mkl "%userprofile%\.ssh" "%ssh_loc%"
-)
-
 rem link dotfiles to ~/:
 rem first from common dots...
 SET homedots=%dots%\home
@@ -88,7 +93,7 @@ if exist "%homedots%\*" (
 )
 rem ...followed by work dots:
 SET homedots=%work_dots%\home
-SET "managed_work_dots=.m2 .bash_aliases_overrides .bash_env_vars_overrides .bash_funs_overrides .npmrc .cx_config"
+SET "managed_work_dots=.m2 .bash_aliases_overrides .bash_env_vars_overrides .bash_funs_overrides .npmrc .cx_config .ssh"
 if exist "%homedots%\*" (
     for %%s in (%managed_work_dots%) do call:mkl "%userprofile%\%%s" "%homedots%\%%s"
 ) else (
@@ -220,10 +225,12 @@ rem ############################################
 SETLOCAL
 set "f=%~1"
 
-if exist "%f%\*" (
-    rmdir /s /q "%f%"
-) else if exist "%f%" (
-    del /q "%f%"
+if exist "%f%" (
+    del /q "%f%" 2> nul
+    if exist "%f%" (
+        :: assuming it's directory:
+        rmdir /s /q "%f%" 2> nul
+    )
 )
 
 ENDLOCAL
