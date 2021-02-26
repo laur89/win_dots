@@ -18,6 +18,7 @@ windows setup &amp; bootstrapping
 **!TODO: [WSL2 is out](https://docs.microsoft.com/en-us/windows/wsl/install-win10), review the process!!**
 
 1. unregister previous installation, if applicable: `wslconfig.exe /unregister Debian`
+  - TODO: `wslconfig.exe` has been deprecated for `wsl.exe` as per [this post](https://github.com/microsoft/WSL/issues/3499#issuecomment-786262070)
 1. `Invoke-WebRequest -Uri https://aka.ms/wsl-debian-gnulinux -OutFile debian.appx -UseBasicParsing`
 1. `Rename-Item .\debian.appx debian.zip`
 1. `Expand-Archive .\debian.zip 'C:\distros\debian'`
