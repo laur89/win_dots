@@ -28,9 +28,9 @@ if %errorlevel% neq 0 (
     :: sanity:
     where choco.exe 1>nul 2>&1
     if %errorlevel% neq 0 (
-        echo choco installation failed?
+        echo choco pkg manager installed - please restart the script
         pause
-        exit 1
+        exit 0
     )
 )
     
@@ -125,7 +125,7 @@ choco install autohotkey.install
 rem Needs to be installed after a reboot:
 rem choco install qttabbar 
 
-choco install sublimetext3 
+choco install sublimetext4
 choco install vscode
 choco install greenshot
 choco install obs-studio
@@ -151,8 +151,8 @@ rem choco install 7zip
 choco install fiddler
 choco install altdrag
 
-choco install erlang
-choco install rebar3
+rem choco install erlang
+rem choco install rebar3
 
 choco install python
 rem choco install python --version 3.6.8 
