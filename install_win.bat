@@ -114,7 +114,6 @@ if exist "%dots%\reg\*" (
 )
 
 rem ############################################
-choco install gitkraken
 rem choco install p4merge
 choco install keepassxc
 
@@ -130,9 +129,8 @@ choco install sublimetext3
 choco install vscode
 choco install greenshot
 choco install obs-studio
-choco install ditto
 choco install fzf
-choco install wsltty
+rem choco install wsltty
 
 rem choco install jetbrainstoolbox
 rem choco pin add -n=jetbrainstoolbox
