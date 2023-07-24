@@ -197,12 +197,13 @@ rem Manually: msys2
 
 rem ############################################
 rem additional links & post-install config:
+rem NOTE!: C:\tools\cygwin\home\%USERNAME% is populated/created only after the first time you open cygwin shell!
 SET cyg_homedir=C:\tools\cygwin\home\%USERNAME%
 if exist "%cyg_homedir%\*" (
     for %%s in (".gitconfig" ".bashrc" ".inputrc" ".ssh" ".bash_aliases" ".bash_env_vars" ".bash_functions") do call:mkl "%cyg_homedir%\%%s" "%userprofile%\%%s"
     for %%s in (%managed_work_dots%) do call:mkl "%cyg_homedir%\%%s" "%userprofile%\%%s"
 ) else (
-    echo [%cyg_homedir%] doesn't exist! won't symlink dotfiles from [%userprofile%\]
+    echo [%cyg_homedir%] doesn't exist - open cygwin shell & restart script; won't symlink dotfiles from [%userprofile%\]
     pause
 )
 
