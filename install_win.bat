@@ -27,7 +27,7 @@ if %errorlevel% neq 0 (
     rem chocolatey is not installed, do it; from: https://chocolatey.org/install
     powershell -NoProfile -ExecutionPolicy Bypass -Command^
      "iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))"^
-     && SET PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin
+     && SET "PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin"
 
     :: sanity:
     where choco.exe 1>nul 2>&1
@@ -69,7 +69,7 @@ if not exist "%userprofile%\.gitconfig" (
     git config --global core.safecrlf true
     :: rem always have Linux line endings in text files:
     git config --global core.autocrlf input
-    ::git config --global http.sslVerify false
+    rem git config --global http.sslVerify false
 
     rem support more than 260 characters on Windows
     rem See https://stackoverflow.com/a/22575737/873282 for details
@@ -81,7 +81,7 @@ md "%dest%"
 call:cloneOrPull https://github.com/laur89/win_dots.git "%dots%"
 
 echo !!!! PULLING PRIVATE DOTS !!!!
-cloneOrPull https://bitbucket.org/layr/private-common.git "%private_dots%"
+call:cloneOrPull https://bitbucket.org/layr/private-common.git "%private_dots%"
 
 rem link dotfiles to ~/:
 rem first from common/win dots...
@@ -159,7 +159,7 @@ rem choco install 7zip
 
 choco install firefox
 choco install steam
-choco install ea-app
+rem choco install ea-app  ; checksum validation fails
 choco install discord
 choco install signal
 choco install copyq
