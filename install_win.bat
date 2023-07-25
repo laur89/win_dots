@@ -1,6 +1,7 @@
 @echo off
-rem original ver stolen from https://github.com/koppor/koppors-chocolatey-scripts/blob/master/install.bat; thanks @koppor
+rem original ver stolen from https://github.com/koppor/koppors-chocolatey-scripts/blob/master/install.bat  -- thanks @koppor
 rem -- to upgrade choco pkgs only, run      $ choco upgrade all
+rem TODO: consider boxstarter
 
 echo This will first install chocolatey, then other tools
 echo .
@@ -18,12 +19,15 @@ popd
 rem SET mypath=%~dp0
 rem SET mypath=%mypath:~0,-1%
 SET dest=%userprofile%\dev
+SET dots=%dest%\win_dots
+SET private_dots=%dest%\private_dots
 
 where choco.exe 1>nul 2>&1
 if %errorlevel% neq 0 (
-    rem chocolatey is not installed, do it; from: https://github.com/chocolatey/choco/wiki/Installation
-    @"powershell.exe" -NoProfile -InputFormat None -ExecutionPolicy Bypass -Command^
-     "iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))" && SET "PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin"
+    rem chocolatey is not installed, do it; from: https://chocolatey.org/install
+    powershell -NoProfile -ExecutionPolicy Bypass -Command^
+     "iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))"^
+     && SET PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin
 
     :: sanity:
     where choco.exe 1>nul 2>&1
@@ -42,7 +46,9 @@ choco install cyg-get
 :: TODO: cyg-get should be only called form cygwin terminal?:
 call cyg-get curl zip unzip bash tar gzip jq
 
-choco install git.install --params "/GitAndUnixToolsOnPath"
+rem All arguments are listed at https://github.com/chocolatey-community/chocolatey-packages/blob/master/automatic/git.install/ARGUMENTS.md
+choco install git.install --params "/GitAndUnixToolsOnPath /WindowsTerminal /WindowsTerminalProfile"
+call refreshenv
 
 :: remvove .gitconfig in case it's dead symlink; in that case subsequent git commands would fail;  # TODO find out how to detect dead symlinks! (note the commented out block below does not work)
 call:rm "%userprofile%\.gitconfig"
@@ -61,24 +67,24 @@ call:rm "%userprofile%\.gitconfig"
 if not exist "%userprofile%\.gitconfig" (
     :: most likely our first run, add temporary git settings until config is pulled:
     git config --global core.safecrlf true
+    :: rem always have Linux line endings in text files:
     git config --global core.autocrlf input
-    git config --global http.sslVerify false
+    ::git config --global http.sslVerify false
+
+    rem support more than 260 characters on Windows
+    rem See https://stackoverflow.com/a/22575737/873282 for details
+    git config --global core.longpaths true
 )
-call refreshenv
 
 rem pull our dotfiles & private config:
 md "%dest%"
-call:cloneOrPull https://github.com/laur89/win_dots.git "%dest%\win_dots"
-::git clone https://github.com/laur89/win_dots.git "%dest%\win_dots"
-SET dots=%dest%\win_dots
-SET work_dots=%dest%\work_dotfiles
+call:cloneOrPull https://github.com/laur89/win_dots.git "%dots%"
 
 echo !!!! PULLING PRIVATE DOTS !!!!
-::cloneOrPull https://bitbucket.org/layr/private-common.git "%dest%\private-common"
-call:cloneOrPull https://git.nonprod.williamhill.plc/laliste/work_dotfiles.git "%work_dots%"
+cloneOrPull https://bitbucket.org/layr/private-common.git "%private_dots%"
 
 rem link dotfiles to ~/:
-rem first from common dots...
+rem first from common/win dots...
 SET homedots=%dots%\home
 if exist "%homedots%\*" (
     rem pushd "%homedots%"
@@ -91,11 +97,12 @@ if exist "%homedots%\*" (
     rem forfiles /P "%homedots%" /C "cmd /c if @isdir==TRUE ( if exists \"%userprofile%\@file\" ( del /s /q \"%userprofile%\@file\" ) & mklink \"%userprofile%\@file\" @path )"
     rem forfiles /P "%homedots%" /C "cmd /c if @isdir==TRUE ( if exists \"@path\*\" ( rmdir /s /q \"@path\" ) & mklink /d \"%userprofile%\@file\" @path ) else ( if exists \"@path\" ( del /s /q \"@path\" ) & mklink \"%userprofile%\@file\" @path )"
 )
-rem ...followed by work dots:
-SET homedots=%work_dots%\home
-SET "managed_work_dots=.m2 .bash_aliases_overrides .bash_env_vars_overrides .bash_funs_overrides .npmrc .cx_config .ssh"
+
+rem ...followed by private dots:
+SET homedots=%private_dots%\home
+SET "managed_private_dots=.ssh"
 if exist "%homedots%\*" (
-    for %%s in (%managed_work_dots%) do call:mkl "%userprofile%\%%s" "%homedots%\%%s"
+    for %%s in (%managed_private_dots%) do call:mkl "%userprofile%\%%s" "%homedots%\%%s"
 ) else (
     echo [%homedots%] doesn't exist! won't symlink dotfiles from [%homedots%\]
     pause
@@ -117,7 +124,9 @@ rem ############################################
 rem choco install p4merge
 choco install keepassxc
 
-choco install clink
+rem Enable bash shortcuts
+rem https://chrisant996.github.io/clink/
+choco install clink-maintained
 rem enable normal files also to be treated as executable - see https://github.com/mridgers/clink/issues/311#issuecomment-95330570
 rem clink set exec_match_style -1
 
@@ -125,8 +134,8 @@ choco install autohotkey.install
 rem Needs to be installed after a reboot:
 rem choco install qttabbar 
 
-choco install sublimetext4
-choco install vscode
+choco install neovim
+rem choco install neovide
 choco install greenshot
 choco install obs-studio
 choco install fzf
@@ -140,7 +149,7 @@ rem choco install windirstat
 rem choco install sysinternals
 rem choco install procexp
 rem choco install procmon
-choco install autoruns
+rem choco install autoruns
 
 rem disabled, because it depends on powershell, which is provided by Windows itself:
 rem choco install poshgit
@@ -148,8 +157,20 @@ rem choco install poshgit
 
 rem choco install 7zip
 
-choco install fiddler
+choco install firefox
+choco install steam
+choco install ea-app
+choco install discord
+choco install signal
+choco install copyq
+rem choco install fiddler
 choco install altdrag
+choco install lghub
+
+
+rem Context menu for Windows Explorer to offer "Copy Unix Path", "Copy Long UNC Path", ...
+rem https://pathcopycopy.github.io/
+choco install path-copy-copy
 
 rem choco install erlang
 rem choco install rebar3
@@ -189,7 +210,8 @@ choco install foobar2000 opencodecs
 rem koppor's very special tools
 choco install pandoc
 choco install xmlstarlet
-choco install jq
+choco install vscode
+choco install sublimetext4
 
 rem Manually: msys2
 
@@ -201,7 +223,7 @@ rem NOTE!: C:\tools\cygwin\home\%USERNAME% is populated/created only after the f
 SET cyg_homedir=C:\tools\cygwin\home\%USERNAME%
 if exist "%cyg_homedir%\*" (
     for %%s in (".gitconfig" ".bashrc" ".inputrc" ".ssh" ".bash_aliases" ".bash_env_vars" ".bash_functions") do call:mkl "%cyg_homedir%\%%s" "%userprofile%\%%s"
-    for %%s in (%managed_work_dots%) do call:mkl "%cyg_homedir%\%%s" "%userprofile%\%%s"
+    for %%s in (%managed_private_dots%) do call:mkl "%cyg_homedir%\%%s" "%userprofile%\%%s"
 ) else (
     echo [%cyg_homedir%] doesn't exist - open cygwin shell & restart script; won't symlink dotfiles from [%userprofile%\]
     pause

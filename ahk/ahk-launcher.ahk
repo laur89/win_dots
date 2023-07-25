@@ -5,10 +5,11 @@
 ; give some time so we could stop faulty scripts at startup:
 Sleep, 10000
 
-Run "%A_AHKPath%" "%A_ScriptDir%\xserver-prep.ahk"
 Run "%A_AHKPath%" "%A_ScriptDir%\key-remap.ahk"
 
-Run "%A_ScriptDir%\..\config.xlaunch"
+; prep env for VcXsrv & launch it:
+;Run "%A_AHKPath%" "%A_ScriptDir%\xserver-prep.ahk"
+;Run "%A_ScriptDir%\..\config.xlaunch"
 
 ExitApp
 

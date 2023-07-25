@@ -2,7 +2,7 @@
 
 GroupAdd, ctrlAltRemap, ahk_class Chrome_WidgetWin_1
 GroupAdd, ctrlAltRemap, ahk_class MozillaWindowClass
-GroupAdd, ctrlAltRemap, ahk_class IEFrame
+;GroupAdd, ctrlAltRemap, ahk_exe msedge.exe ahk_class Chrome_WidgetWin_1   ;<-- to target Edge specifically
 
 #IfWinActive ahk_group ctrlAltRemap
 	!0::Send ^0
