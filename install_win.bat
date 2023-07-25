@@ -81,7 +81,7 @@ md "%dest%"
 call:cloneOrPull https://github.com/laur89/win_dots.git "%dots%"
 
 echo !!!! PULLING PRIVATE DOTS !!!!
-call:cloneOrPull https://bitbucket.org/layr/private-common.git "%private_dots%"
+rem call:cloneOrPull https://bitbucket.org/layr/private-common.git "%private_dots%"
 
 rem link dotfiles to ~/:
 rem first from common/win dots...
