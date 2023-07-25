@@ -115,10 +115,10 @@ if exist "%ahk_launcher%" (
     call:mkl "%appdata%\Microsoft\Windows\Start Menu\Programs\Startup\ahk-launcher" "%ahk_launcher%"
 )
 
-rem apply regedits:
-if exist "%dots%\reg\*" (
-    regedit.exe /s "%dots%\reg\caps-as-esc.reg"
-)
+rem apply regedits: (disabled now as we get the function for free via UHK)
+::if exist "%dots%\reg\*" (
+::    regedit.exe /s "%dots%\reg\caps-as-esc.reg"
+::)
 
 rem ############################################
 rem choco install p4merge
