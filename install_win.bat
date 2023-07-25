@@ -159,6 +159,7 @@ rem choco install 7zip
 
 choco install firefox
 choco install steam
+choco install epicgameslauncher
 rem choco install ea-app  ; checksum validation fails
 choco install discord
 choco install signal
