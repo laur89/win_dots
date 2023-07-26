@@ -29,7 +29,7 @@ if %errorlevel% neq 0 (
      "iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))"^
      && SET "PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin"
 
-    :: sanity:
+    rem sanity:
     where choco.exe 1>nul 2>&1
     if %errorlevel% neq 0 (
         echo choco pkg manager installed - please restart the script
@@ -41,33 +41,33 @@ if %errorlevel% neq 0 (
 choco feature enable -n=allowGlobalConfirmation
 
 choco install cygwin
-:: choco install cygwin --params "/InstallDir:C:\cygwin"
+rem choco install cygwin --params "/InstallDir:C:\cygwin"
 choco install cyg-get
-:: TODO: cyg-get should be only called form cygwin terminal?:
+rem TODO: cyg-get should be only called form cygwin terminal?:
 call cyg-get curl zip unzip bash tar gzip jq
 
 rem All arguments are listed at https://github.com/chocolatey-community/chocolatey-packages/blob/master/automatic/git.install/ARGUMENTS.md
 choco install git.install --params "/GitAndUnixToolsOnPath /WindowsTerminal /WindowsTerminalProfile"
 call refreshenv
 
-:: remvove .gitconfig in case it's dead symlink; in that case subsequent git commands would fail;  # TODO find out how to detect dead symlinks! (note the commented out block below does not work)
+rem remvove .gitconfig in case it's dead symlink; in that case subsequent git commands would fail;  # TODO find out how to detect dead symlinks! (note the commented out block below does not work)
 call:rm "%userprofile%\.gitconfig"
-::if exist "%userprofile%\.gitconfig" (
-::    fsutil file queryfileid "%userprofile%\.gitconfig" 2> nul
-::    if %ERRORLEVEL% neq 0 (
-::        :: we have dead link, make sure to remove it! otherwise our git commands will fail!
-::        echo yooo gonna delete gitconfig link
-::        pause
-::        call:rm "%userprofile%\.gitconfig"
-::        echo yooosup rm called
-::        pause
-::    )
-::)
+rem if exist "%userprofile%\.gitconfig" (
+rem     fsutil file queryfileid "%userprofile%\.gitconfig" 2> nul
+rem     if %ERRORLEVEL% neq 0 (
+rem         rem we have dead link, make sure to remove it! otherwise our git commands will fail!
+rem         echo yooo gonna delete gitconfig link
+rem         pause
+rem         call:rm "%userprofile%\.gitconfig"
+rem         echo yooosup rm called
+rem         pause
+rem     )
+rem )
 
 if not exist "%userprofile%\.gitconfig" (
-    :: most likely our first run, add temporary git settings until config is pulled:
+    rem most likely our first run, add temporary git settings until config is pulled:
     git config --global core.safecrlf true
-    :: rem always have Linux line endings in text files:
+    rem rem always have Linux line endings in text files:
     git config --global core.autocrlf input
     rem git config --global http.sslVerify false
 
@@ -116,9 +116,9 @@ if exist "%ahk_launcher%" (
 )
 
 rem apply regedits: (disabled now as we get the function for free via UHK)
-::if exist "%dots%\reg\*" (
-::    regedit.exe /s "%dots%\reg\caps-as-esc.reg"
-::)
+rem if exist "%dots%\reg\*" (
+rem     regedit.exe /s "%dots%\reg\caps-as-esc.reg"
+rem )
 
 rem ############################################
 rem choco install p4merge
@@ -244,16 +244,16 @@ rem ############################################
 
 
 :rm    -- remove file or dir if exists
-::                 -- %~1: file or dir to delete
+rem                 -- %~1: file or dir to delete
 SETLOCAL
 set "f=%~1"
 
 if exist "%f%" (
-    :: make sure to first rmdir, _then_ del; otherwise if %f% is a symlink to a dir,
-    :: then del would first remove all the regular files in target!
+    rem make sure to first rmdir, _then_ del; otherwise if %f% is a symlink to a dir,
+    rem then del would first remove all the regular files in target!
     rmdir /s /q "%f%" 2> nul
     if exist "%f%" (
-        :: assuming it's regular file:
+        rem assuming it's regular file:
         del /q "%f%" 2> nul
     )
 )
@@ -263,22 +263,22 @@ GOTO:EOF
 
 
 :mkl    -- create link; target is deleted beforehand if it already exists.
-::                 -- %~1: target link to file
-::                 -- %~2: source file/dir to create link for
+rem                 -- %~1: target link to file
+rem                 -- %~2: source file/dir to create link for
 SETLOCAL
 set "t=%~1"
 set "s=%~2"
 
 call:rm "%t%"
 
-:: sanity:
+rem sanity:
 if exist "%t%" (
     echo "error: link target [%t%] already exists - did rm() fail? aborting."
     pause
     exit
 )
 
-:: TODO: improve logic for is-directory checking
+rem TODO: improve logic for is-directory checking
 if exist "%s%\*" (
     mklink /d "%t%" "%s%"
 ) else if exist "%s%" (
@@ -293,8 +293,8 @@ GOTO:EOF
 
 
 :cloneOrPull    -- clone or pull repo
-::                 -- %~1: https url of repo to clone
-::                 -- %~2: repo's target dir (local)
+rem                 -- %~1: https url of repo to clone
+rem                 -- %~2: repo's target dir (local)
 SETLOCAL
 set "repo=%~1"
 set "target_dir=%~2"
@@ -303,7 +303,7 @@ if exist "%target_dir%\*" (
     pushd "%target_dir%"
     git pull
     if %errorlevel% neq 0 (
-        :: first pull failed, let's retry...
+        rem first pull failed, let's retry...
         git pull
         if %errorlevel% neq 0 (
             echo pulling [%repo%] in [%target_dir%] failed; won't abort, but check that out :(
