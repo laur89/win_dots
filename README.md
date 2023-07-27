@@ -31,25 +31,29 @@ windows setup &amp; bootstrapping
     on the debloating subject
 
 
-## WSL quickstart (all commands from posh, no admin needed):
+## WSL2 quickstart (all commands from posh, admin only needed for install):
 
-**!TODO: [WSL2 is out](https://docs.microsoft.com/en-us/windows/wsl/install-win10), review the process!!**
-- maybe check [this SO question](https://stackoverflow.com/questions/66768148/how-to-setup-vcxsrv-for-use-with-wsl2)
-- another useful [vcxsrv thread](https://superuser.com/questions/1372854/do-i-launch-the-app-xlaunch-for-every-login-to-use-gui-in-ubuntu-wsl-in-windows)
+Instructions taken mainly from [MS WSL2 installation guide](https://learn.microsoft.com/en-us/windows/wsl/install)
 
-1. unregister previous installation, if applicable: `wslconfig.exe /unregister Debian`
-  - TODO: `wslconfig.exe` has been deprecated for `wsl.exe` as per [this post](https://github.com/microsoft/WSL/issues/3499#issuecomment-786262070)
-1. `Invoke-WebRequest -Uri https://aka.ms/wsl-debian-gnulinux -OutFile debian.appx -UseBasicParsing`
-1. `Rename-Item .\debian.appx debian.zip`
-1. `Expand-Archive .\debian.zip 'C:\distros\debian'`
-1. `cd C:\distros\debian\`
-1. `.\debian.exe` (or just `..\..\distros\debian\debian.exe`)
+- to see list of available distors, run `wsl --list --online`
+- to see list of _installed_ distros, run `wsl -l -v`
+- to set default linux distro used w/ `wsl` command, run `wsl --setdefault Debian`;
+  now running `wsl npm init` will run `npm init` in debian
 
+1. open posh in admin mode and run `wsl --install -d Debian`
+  - this command can be re-ran to install other distros
+1. follow [this MS best practices for setup](https://learn.microsoft.com/en-us/windows/wsl/setup/environment#set-up-your-linux-username-and-password)
 1. `sudo apt-get update`
 1. `sudo apt-get install ca-certificates openssh-client`
 1. follow instructions from /dotfiles:
    - `wget ...raw//wanted-branch/...install_system.sh`
    - (likely last step, confirm): `./install_system <mode>`
+
++ other useful tips:
+  - [basic WSL commands](https://learn.microsoft.com/en-us/windows/wsl/basic-commands)
+  - [windows terminal setup/config](https://learn.microsoft.com/en-us/windows/terminal/customize-settings/startup)
+  - maybe check [this SO question for vcxsrv usage under wsl2](https://stackoverflow.com/questions/66768148/how-to-setup-vcxsrv-for-use-with-wsl2)
+  - another useful [vcxsrv thread](https://superuser.com/questions/1372854/do-i-launch-the-app-xlaunch-for-every-login-to-use-gui-in-ubuntu-wsl-in-windows)
 
 ## misc
 
