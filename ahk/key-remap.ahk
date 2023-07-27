@@ -2,6 +2,7 @@
 
 GroupAdd, ctrlAltRemap, ahk_class Chrome_WidgetWin_1
 GroupAdd, ctrlAltRemap, ahk_class MozillaWindowClass
+GroupAdd, ctrlAltRemap, ahk_class Notepad
 ;GroupAdd, ctrlAltRemap, ahk_exe msedge.exe ahk_class Chrome_WidgetWin_1   ;<-- to target Edge specifically
 
 #IfWinActive ahk_group ctrlAltRemap
@@ -25,3 +26,26 @@ GroupAdd, ctrlAltRemap, ahk_class MozillaWindowClass
 	^SC01A::ControlSend,, SC01A, ahk_class VcXsrv/x
 	;^SC01A::ControlSend, VcXsrv/x, a
 #If
+
+#f::
+  ;MsgBox, Win-F was pressed! ; Arbitrary code here
+  ;Send {^}{+}{F11}
+  ;Send {LWin Up}{Control}{Shift}{F11}
+  ;Send {Win Up}
+  Send {F11}
+return
+
+; alt+i to send win+`, triggering the quake-style terminal (have to be started with wt -w _quake first):
+!i::
+DetectHiddenWindows, on
+if WinExist("ahk_class CASCADIA_HOSTING_WINDOW_CLASS")
+  ;Send {Alt up}
+  Send #``
+else
+  Run wt -w _quake powershell -nologo
+
+DetectHiddenWindows, off
+return
+
+; close window; alternatively could also use   #c::Send !{F4}
+#c::WinClose A
