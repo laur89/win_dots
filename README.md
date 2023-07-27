@@ -1,4 +1,8 @@
 # win_dots
+
+## to install win11 without linking to MS account (and getting to choose your account name):
+- after selecting keeb layout, press `Shift+F10` & type `OOBE\BYPASSNRO` 
+
 windows setup &amp; bootstrapping
 
 - download `install_win.bat` and run as admin (ie right click -> admin); note
@@ -20,10 +24,11 @@ windows setup &amp; bootstrapping
 
 - activate using [massgravel/Microsoft-Activation-Scripts](https://github.com/massgravel/Microsoft-Activation-Scripts)
 - declutter/debloat using [ChrisTitusTech/winutil](https://github.com/ChrisTitusTech/winutil)
-  - also there's [builtbybel/BloatyNosy](https://github.com/builtbybel/BloatyNosy)
+  - import our settings from `winutil-settings.json` file in this repo
+  - alternative debloater tool: [builtbybel/BloatyNosy](https://github.com/builtbybel/BloatyNosy)
   - okayish reddit
     [thread](https://www.reddit.com/r/Windows11/comments/124vxsv/should_i_debloat_my_new_windows_11_laptop_how/)
-    on the debloating matter
+    on the debloating subject
 
 
 ## WSL quickstart (all commands from posh, no admin needed):
