@@ -1,29 +1,82 @@
-[diff]
-	indentHeuristic = true
-[color "diff"]
-	new = green bold
-[color "status"]
-	updated = green bold
-[color "branch"]
-	current = green bold
-[core]
-	longpaths = true
-	preloadindex = true
-	fscache = true
-	commitGraph = true
-	autocrlf = input
-	safecrlf = true
-[pull]
-	rebase = true
+[user]
+    name = laur
+    email = laur.aliste@gmail.com
+
 [merge]
-	conflictstyle = diff3
-	prompt = false
+    tool = my_meld
+    conflictstyle = diff3
+    prompt = false
+[mergetool "my_meld"]
+    ;cmd = meld --auto-merge --diff $BASE $LOCAL --diff $BASE $REMOTE --diff $LOCAL $BASE $REMOTE --output $MERGED
+    ;cmd = meld --diff $BASE $LOCAL --diff $BASE $REMOTE --diff $LOCAL $BASE $REMOTE --output $MERGED
+    ; MJ's cmd:
+    cmd = meld --auto-merge $LOCAL $BASE $REMOTE --output $MERGED --diff $LOCAL $BASE --diff $BASE $REMOTE
+    ;keepBackup = false
+[mergetool "nvr"]
+    cmd = nvr -s -d $LOCAL $BASE $REMOTE $MERGED -c 'wincmd J | wincmd ='
+;[mergetool]
+    ;keepBackup = false
+[core]
+    ;excludesfile = ~/.gitignore  # no point in setting; global default in NIX is ~/.config/git/ignore, in WIN: %USERPROFILE%\git\ignore
+    editor = nvim
+    longpaths = true
+    fscache = true
+    commitGraph = true
+    autocrlf = input
+    safecrlf = true
+    pager = delta
+    preloadindex = true
+[rerere]
+    enabled = true
+[pull]
+    rebase = true
 [push]
-	default = simple
-[gc]
-	auto = 256
-[http "https://git.nonprod.williamhill.plc"]
-	sslVerify = false
+    default = simple
+    ; automatically push _annotated_ tags:
+    followTags = true
+[rebase]
+    autoStash = true  ; stashes local changes before rebase, if needed
+[difftool]
+    prompt = true
+[difftool "nvr"]
+    cmd = nvr -s -d $LOCAL $REMOTE
+[diff]
+    tool = meld
+    ;tool = p4merge
+    ;tool = nvr
+    ;tool = vimdiff
+    renames = true
+    colorMoved = default
+    indentHeuristic = true
+;[multidiff]
+    ; see http://www.xenomachina.com/2012/02/multi-diff-with-vim-andor-git.html
+    ; & https://github.com/xenomachina/public/
+    ;tool = vd -f
+[pager]
+    difftool = false
+    ;diff = diff-so-fancy | less --tabs=4 -RFXS --pattern '^(Date|added|deleted|modified): '
+[interactive]
+    ;diffFilter = diff-so-facy --patch-mode
+    diffFilter = delta --color-only
+[delta]
+    ;side-by-side = true
+    line-numbers = true
+    features = decorations unobtrusive-line-numbers
+    whitespace-error-style = 22 reverse
+[delta "decorations"]
+    commit-decoration-style = bold yellow box ul
+    file-style = bold yellow ul
+    file-decoration-style = none
+    hunk-header-decoration-style = yellow box
+[delta "unobtrusive-line-numbers"]
+    line-numbers = true
+    line-numbers-minus-style = "#444444"
+    line-numbers-zero-style = "#444444"
+    line-numbers-plus-style = "#444444"
+    line-numbers-left-format = "{nm:>4}┊"
+    line-numbers-right-format = "{np:>4}│"
+    line-numbers-left-style = blue
+    line-numbers-right-style = blue
 [alias]
     commt = commit
     st = status
@@ -32,10 +85,20 @@
     a = add
     b = branch -avv
     aa = add --all
-    rst = reset
     rvrt = revert
+    di-staged = diff --cached
+    di-stged = diff --cached
+    distaged = diff --cached
+    distged = diff --cached
+
     di = diff
     dif = diff
+
+    di-stashed = difftool --dir-diff stash@{0}^ stash@{0}
+    di-stshed = difftool --dir-diff stash@{0}^ stash@{0}
+    distashed = difftool --dir-diff stash@{0}^ stash@{0}
+    distshed = difftool --dir-diff stash@{0}^ stash@{0}
+
     dd = difftool --dir-diff
     showtool = "!showci () { rev=${1:-HEAD}; git difftool --dir-diff $rev~1 $rev; }; showci $1"
     squash = "!sqash () { rev=$1; echo "$rev" | grep -Eq '^[0-9]+$' && [ "$rev" -gt 1 -a "$rev" -lt 10 ] || return 1; git rebase -i HEAD~$rev; }; sqash $1"
@@ -43,7 +106,14 @@
     co = checkout
     cp = cherry-pick
     rb = rebase
-    fe = fetch --prune --tags
+    rbo = "!rb_origin () { b=${1:-$(git rev-parse --abbrev-ref HEAD)}; git fetch origin && git rebase origin/$b; }; rb_origin $1"
+    rbu = "!rb_upstream () { b=${1:-$(git rev-parse --abbrev-ref HEAD)}; git fetch upstream && git rebase upstream/$b; }; rb_upstream $1"
+    rst = reset
+    rsto = "!rst_origin () { b=${1:-$(git rev-parse --abbrev-ref HEAD)}; git fetch origin && git reset origin/$b; }; rst_origin $1"
+    rstoh = "!rst_origin_hard () { b=${1:-$(git rev-parse --abbrev-ref HEAD)}; git fetch origin && git reset --hard origin/$b; }; rst_origin_hard $1"
+    rstu = "!rst_upstream () { b=${1:-$(git rev-parse --abbrev-ref HEAD)}; git fetch upstream && git reset upstream/$b; }; rst_upstream $1"
+    rstuh = "!rst_upstream_hard () { b=${1:-$(git rev-parse --abbrev-ref HEAD)}; git fetch upstream && git reset --hard upstream/$b; }; rst_upstream_hard $1"
+    fe = fetch --prune --tags --all
     pul = pull
     desc = describe
     lg = log -i --all --graph --source --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'\n --abbrev-commit --date=relative
@@ -67,7 +137,7 @@
     stashed-show = stash show -p stash@{0}
     ;stashdrop = !git stash && git stash drop
     stashdrop = "!stshdrp () { _stash=$(git config --local remote.origin.url) || return 1; _stash=/tmp/${_stash##*/}.dropped.stash || return 1; _token=6c1372ce93186e7957cd299179b2ddf6308cc246; git stash save $_token > /dev/null || return 1; if git stash list | grep -q $_token; then git stash show -p stash@{0} > $_stash && git stash drop && echo && echo stashfile backed @ [$_stash]; else echo && echo nothing to stash; fi; }; stshdrp"
-    stashunstaged = "!stshustgd () { if ! git commit -m 'WIP - temp committing staged changes'; then echo && echo nothing staged && return 1; fi; git add . || return 1; git stash save 'unstaged files stash' > /dev/null || return 1; git reset --soft HEAD^; }; stshustgd"
+    stashunstaged = "!stshustgd () { if ! git commit -m 'chore: temp committing staged changes'; then echo && echo nothing staged && return 1; fi; git add . || return 1; git stash save 'unstaged files stash' > /dev/null || return 1; git reset --soft HEAD^; }; stshustgd"
     keepstaged = !git stash save --keep-index
 
     new-branch = checkout -b
@@ -77,7 +147,7 @@
     delete-branch-remote = push origin --delete
     delete-remote-branch = push origin --delete
     branch-delete-remote = push origin --delete
-    
+
 [gitflow "branch"]
     master = master
     develop = develop
@@ -88,4 +158,38 @@
     support = support/
     versiontag =
 
-	
+; color bits from https://github.com/so-fancy/diff-so-fancy:
+[color]
+    ui = true
+[color "diff-highlight"]
+    oldNormal = red bold
+    oldHighlight = red bold 52
+    newNormal = green bold
+    newHighlight = green bold 22
+[color "diff"]
+    meta = 11
+    frag = magenta bold
+    commit = yellow bold
+    old = red bold
+    new = green bold
+    whitespace = red reverse
+
+[color "status"]
+    updated = green bold
+[color "branch"]
+    current = green bold
+
+
+[gc]
+    auto = 256
+[safe]
+    directory = *
+
+;;;;;;;;;;;;;;;;;;;
+;;;; COMMANDSS ;;;;
+;;;;;;;;;;;;;;;;;;;
+; git log --all --oneline
+; git log --all --oneline --author=rickhanlonii | grep "search query"
+; git show a2c25061
+;   or  git show a2c25061 --stat   to show info about commit without diff
+;
