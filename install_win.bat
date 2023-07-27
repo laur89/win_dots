@@ -135,6 +135,8 @@ rem Needs to be installed after a reboot:
 rem choco install qttabbar 
 
 choco install neovim
+choco install delta
+choco install meld
 rem choco install neovide
 choco install greenshot
 choco install obs-studio
