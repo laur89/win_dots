@@ -15,6 +15,13 @@ if %errorlevel% neq 0 (
 )
 popd
 
+rem enable developer mode; without it we can't create symlink as regular user (needed eg by dotter dotfile manager):
+reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock" /t REG_DWORD /f /v "AllowDevelopmentWithoutDevLicense" /d "1"
+if %errorlevel% neq 0 (
+    echo developer mode enabling failed - won't abort the script
+    pause
+)
+
 
 rem SET mypath=%~dp0
 rem SET mypath=%mypath:~0,-1%
