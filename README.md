@@ -35,12 +35,8 @@ windows setup &amp; bootstrapping
 
 Instructions taken mainly from [MS WSL2 installation guide](https://learn.microsoft.com/en-us/windows/wsl/install)
 
-- to see list of available distors, run `wsl --list --online`
-- to see list of _installed_ distros, run `wsl -l -v`
-- to set default linux distro used w/ `wsl` command, run `wsl --setdefault Debian`;
-  now running `wsl npm init` will run `npm init` in debian
-
 1. open posh in admin mode and run `wsl --install -d Debian`
+  - prompt will ask you to reboot the system
   - this command can be re-ran to install other distros
 1. follow [this MS best practices for setup](https://learn.microsoft.com/en-us/windows/wsl/setup/environment#set-up-your-linux-username-and-password)
 1. `sudo apt-get update`
@@ -54,6 +50,18 @@ Instructions taken mainly from [MS WSL2 installation guide](https://learn.micros
   - [windows terminal setup/config](https://learn.microsoft.com/en-us/windows/terminal/customize-settings/startup)
   - maybe check [this SO question for vcxsrv usage under wsl2](https://stackoverflow.com/questions/66768148/how-to-setup-vcxsrv-for-use-with-wsl2)
   - another useful [vcxsrv thread](https://superuser.com/questions/1372854/do-i-launch-the-app-xlaunch-for-every-login-to-use-gui-in-ubuntu-wsl-in-windows)
+  - to see list of available distors, run `wsl --list --online`
+  - to see list of _installed_ distros, run `wsl -l -v`
+  - to set default linux distro used w/ `wsl` command, run `wsl --setdefault Debian`;
+    now running `wsl npm init` will run `npm init` in debian;
+  - note as of WSL2 it's possible to run GUI programs without vcxsrv and the
+    likes: https://learn.microsoft.com/en-us/windows/wsl/tutorials/gui-apps#run-linux-gui-apps
+    - this feature uses `WSLg`;
+    - looks like WSLg [ships Weston w/ a built-in window manager that can't be replaced](https://github.com/microsoft/wslg/issues/47#issuecomment-825378818),
+      meaning no full desktop experience like i3;
+    - however [this gh comment](https://github.com/microsoft/wslg/issues/47#issuecomment-862026696)
+      suggests running nested xserver (Xephyr), which _sort of_ works;
+    - [troubleshooting issues w/ WSLg](https://github.com/microsoft/wslg/wiki/Diagnosing-%22cannot-open-display%22-type-issues-with-WSLg)
 
 ## misc
 
