@@ -39,7 +39,9 @@ Instructions taken mainly from [MS WSL2 installation guide](https://learn.micros
   - prompt will ask you to reboot the system
   - this command can be re-ran to install other distros
 1. follow [this MS best practices for setup](https://learn.microsoft.com/en-us/windows/wsl/setup/environment#set-up-your-linux-username-and-password)
-1. `sudo apt-get update`
+1. `sudo apt-get --allow-releaseinfo-change update`
+1. `sudo apt-get upgrade --without-new-pkgs`
+1. `sudo apt-get dist-upgrade`
 1. `sudo apt-get install ca-certificates openssh-client`
 1. follow instructions from /dotfiles:
    - `wget ...raw//wanted-branch/...install_system.sh`
