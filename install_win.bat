@@ -166,6 +166,7 @@ rem choco install poshgit
 
 rem choco install 7zip
 
+choco install notepadplusplus
 choco install firefox
 choco install steam
 choco install epicgameslauncher
@@ -176,6 +177,7 @@ choco install copyq
 rem choco install fiddler
 choco install altdrag
 choco install lghub
+choco install hwmonitor
 
 
 rem Context menu for Windows Explorer to offer "Copy Unix Path", "Copy Long UNC Path", ...
