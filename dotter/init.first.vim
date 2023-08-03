@@ -1,5 +1,11 @@
 " vim: set ft=vimrc:
 
+" default conf_dir to $HOME/.config/nvim/ if not defined:
+let conf_dir = get(g:, 'conf_dir', $HOME.'/.config/nvim/')
+if !isdirectory(conf_dir)
+    silent execute '!mkdir -p '.conf_dir
+endif
+
 """ User interface {{{
     """ Syntax highlighting {{{
         filetype plugin indent on                   " load filetype plugins and indent settings
@@ -221,7 +227,10 @@
     set updatecount=50                              " update swp after 50chars
     """ Persistent undo. Requires Vim 7.3 {{{
         if has('persistent_undo') && exists("&undodir")
-            set undodir=$HOME/.config/nvim/undo/    " where to store undofiles
+            let &undodir = conf_dir . '/undo/'      " where to store undofiles
+            if !isdirectory(&undodir)
+                silent execute '!mkdir -p '.&undodir
+            endif
             set undofile                            " enable undofile
             set undolevels=300                      " max undos stored
             set undoreload=10000                    " buffer stored undos
@@ -551,6 +560,9 @@
             elseif has('mac')
                 vn <C-c> y:call system("pbcopy", getreg("\""))<CR>
                 no <leader><C-v> :call setreg("\"",system("pbpaste"))<CR>p
+            elseif has('win32')
+                vn <C-c> y:call system('"%ProgramFiles(x86)%\CopyQ\copyq.exe" add -', getreg("\""))<CR>:call system('"%ProgramFiles(x86)%\CopyQ\copyq.exe" select 0')<CR>
+                no <leader><C-v> :call system("copyq select 0;copyq paste")<CR>  "TODO this bit has not been windowsified yet
             endif
         """ }}}
 
