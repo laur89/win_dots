@@ -1,9 +1,13 @@
 #NoEnv
+; #Warn                      ; Enable warnings to assist with detecting common errors.
+SendMode Input               ; Recommended for new scripts due to its superior speed and reliability.
+SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 
 GroupAdd, ctrlAltRemap, ahk_class Chrome_WidgetWin_1
 GroupAdd, ctrlAltRemap, ahk_class MozillaWindowClass
 GroupAdd, ctrlAltRemap, ahk_class Notepad
-;GroupAdd, ctrlAltRemap, ahk_exe msedge.exe ahk_class Chrome_WidgetWin_1   ;<-- to target Edge specifically
+GroupAdd, ctrlAltRemap, ahk_class CabinetWClass  ; windows explorer
+;GroupAdd, ctrlAltRemap, ahk_exe msedge.exe ahk_class Chrome_WidgetWin_1   ; <-- to target Edge specifically
 
 #IfWinActive ahk_group ctrlAltRemap
 	!0::Send ^0
@@ -37,15 +41,18 @@ return
 
 ; alt+i to send win+`, triggering the quake-style terminal (have to be started with wt -w _quake first):
 !i::
-DetectHiddenWindows, on
-if WinExist("ahk_class CASCADIA_HOSTING_WINDOW_CLASS")
-  ;Send {Alt up}
-  Send #``
-else
-  Run wt -w _quake powershell -nologo
-
-DetectHiddenWindows, off
+  DetectHiddenWindows, on
+  if WinExist("ahk_class CASCADIA_HOSTING_WINDOW_CLASS")
+    ;Send {Alt up}
+    Send #``
+  else
+    Run wt -w _quake powershell -nologo
+  DetectHiddenWindows, off
 return
 
 ; close window; alternatively could also use   #c::Send !{F4}
 #c::WinClose A
+
+; map ctrl+y to ctrl+shift+z to better mimic redo on loonix:
+; TODO: causes keymap language to be changed/toggled! if no other language is available it's a non-issue though.
+$^+z::Send ^y

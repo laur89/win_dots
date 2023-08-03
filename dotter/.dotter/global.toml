@@ -1,0 +1,12 @@
+[helpers]
+
+[default]
+depends = []
+
+[default.files]
+"copyq-commands.ini" = "~/AppData/Roaming/copyq/copyq-commands.ini"
+"copyq.ini" = "~/AppData/Roaming/copyq/copyq.ini"
+"tridactylrc" = "~/.tridactylrc"
+"init.first.vim" = { target = "~/AppData/Local/nvim/init.vim", type = "symbolic" }
+
+[default.variables]

@@ -6,6 +6,7 @@
 Sleep, 10000
 
 Run "%A_AHKPath%" "%A_ScriptDir%\key-remap.ahk"
+Run "%A_AHKPath%" "%A_ScriptDir%\window-management.ahk"
 Run wt  -w _quake powershell -nologo -window minimized
 
 ; prep env for VcXsrv & launch it:

@@ -1,0 +1,33 @@
+" see example at https://github.com/tridactyl/tridactyl/blob/master/.tridactylrc
+" additional list of configs: https://github.com/tridactyl/tridactyl/wiki/Exemplar-.tridactylrc-files
+" to pull changes in, run :source
+"
+" via userChrome.css it's possible modify statusbar; eg see this: https://gist.github.com/osleg/e95cbe9219a84a1d73cb0bf9480ec70f
+" (from thread @ https://github.com/tridactyl/tridactyl/issues/210)
+"""""""""""""""""""""""""""""""""""""""""""""""""""
+
+bind J tabnext
+bind K tabprev
+
+" decrease scroll; default is 10 lines:
+bind j scrollline 5
+bind k scrollline -5
+
+" change to dark mode:
+colors dark
+
+" hintmode as it was in vimperator:
+unbind --mode=hint <Space>
+set hintfiltermode vimperator
+set hintchars 1234567890
+
+" Make gu take you back to subreddit from comments
+bindurl reddit.com gu urlparent 3
+
+" note hintdelay was introduced in https://github.com/tridactyl/tridactyl/commit/aaa0016fc5e5e160462555ab8ec517dcf9e7421e
+" Defaults to 300ms; this is especially beneficial in vimperator hintmode
+"set hintdelay 100
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""
+" needs syntax plugin, see https://github.com/tridactyl/vim-tridactyl
+" vim: set filetype=tridactyl
