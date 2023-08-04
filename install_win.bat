@@ -47,11 +47,11 @@ if %errorlevel% neq 0 (
     
 choco feature enable -n=allowGlobalConfirmation
 
-choco install cygwin
+rem choco install cygwin
 rem choco install cygwin --params "/InstallDir:C:\cygwin"
-choco install cyg-get
+rem choco install cyg-get
 rem TODO: cyg-get should be only called form cygwin terminal?:
-call cyg-get curl zip unzip bash tar gzip jq
+rem call cyg-get curl zip unzip bash tar gzip jq
 
 rem All arguments are listed at https://github.com/chocolatey-community/chocolatey-packages/blob/master/automatic/git.install/ARGUMENTS.md
 choco install git.install --params "/GitAndUnixToolsOnPath /WindowsTerminal /WindowsTerminalProfile"
@@ -145,7 +145,6 @@ choco install neovim
 choco install delta
 choco install meld
 rem choco install neovide
-choco install greenshot
 choco install obs-studio
 choco install fzf
 rem choco install wsltty
@@ -176,7 +175,10 @@ choco install signal
 choco install copyq
 rem choco install fiddler
 choco install altdrag
-choco install lghub
+rem TODO: both lghub & greenshot seem to hand the temrinal:
+rem choco install lghub
+rem choco install greenshot
+
 choco install hwmonitor
 
 
@@ -187,7 +189,7 @@ choco install path-copy-copy
 rem choco install erlang
 rem choco install rebar3
 
-choco install python
+rem choco install python
 rem choco install python --version 3.6.8 
 rem choco install pip
 
