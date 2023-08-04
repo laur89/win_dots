@@ -9,5 +9,6 @@ depends = []
 "tridactylrc" = "~/.tridactylrc"
 "init.vim" = { target = "~/AppData/Local/nvim/init.vim", type = "symbolic" }
 "init.first.vim" = { target = "~/AppData/Local/nvim/init.first.vim", type = "symbolic" }
+"init.plugins.vim" = { target = "~/AppData/Local/nvim/init.plugins.vim", type = "symbolic" }
 
 [default.variables]
