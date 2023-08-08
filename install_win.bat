@@ -239,7 +239,7 @@ if exist "%cyg_homedir%\*" (
     for %%s in (".gitconfig" ".bashrc" ".inputrc" ".ssh" ".bash_aliases" ".bash_env_vars" ".bash_functions") do call:mkl "%cyg_homedir%\%%s" "%userprofile%\%%s"
     for %%s in (%managed_private_dots%) do call:mkl "%cyg_homedir%\%%s" "%userprofile%\%%s"
 ) else (
-    echo [%cyg_homedir%] doesn't exist - open cygwin shell & restart script; won't symlink dotfiles from [%userprofile%\]
+    echo [%cyg_homedir%] doesn't exist - open cygwin shell ^& restart script; won't symlink dotfiles from [%userprofile%\]
     pause
 )
 

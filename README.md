@@ -2,6 +2,10 @@
 
 ## to install win11 without linking to MS account (and getting to choose your account name):
 - after selecting keeb layout, press `Shift+F10` & type `OOBE\BYPASSNRO` 
+  - note it's not right after you've first booted from the USB; first the setup
+    will have to copy the files to our installation drive, only after the first
+    (couple) reboots we can do this step;
+  - don't forget to unplug eth cable!
 
 windows setup &amp; bootstrapping
 
@@ -29,6 +33,7 @@ windows setup &amp; bootstrapping
   - okayish reddit
     [thread](https://www.reddit.com/r/Windows11/comments/124vxsv/should_i_debloat_my_new_windows_11_laptop_how/)
     on the debloating subject
+- run `dotter.exe deploy --force` from win_dots/dotter  (--force to overwrite existing files)
 
 
 ## WSL2 quickstart (all commands from posh, admin only needed for install):
@@ -79,6 +84,7 @@ Instructions taken mainly from [MS WSL2 installation guide](https://learn.micros
  (didn't work from cygwin like: `$JAVA_HOME/bin/keytool -import -file cert.crt -keystore C:\tools\cygwin\home\laliste\.sdkman\candidates\java\8.0.181-zulu\jre\lib\security\cacerts -alias "my cert alias"`)
 - to hide a local drive from windows, see [this SO answer](https://superuser.com/a/944926/179401);
   same info is also included in this [makeuseof](https://www.makeuseof.com/how-to-hide-a-drive-in-windows/) article
+  - actually what I did was simply right click -> 'disable' in Device Manager
 - if you see `PCI Memory Controller` and/or `SM Bus Controller` driver issues
   under Control Panel (as described in [this reddit thread](https://www.reddit.com/r/WindowsHelp/comments/q2gguu/pci_memory_controller_sm_bus_controller_errors/)),
   you likely need to install [Intel Chipset INF Utility](https://www.intel.com/content/www/us/en/download/19347/chipset-inf-utility.html);
@@ -88,5 +94,4 @@ Instructions taken mainly from [MS WSL2 installation guide](https://learn.micros
   a game you're greeted w/ `Please reinstall the program - DSOUND.dll`
   error/message, you need to install "media feature pack":
     `->  settings -> apps -> optional features -> add an optional feature - view features -> meadia feature pack.`
-
 
