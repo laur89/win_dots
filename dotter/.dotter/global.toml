@@ -7,6 +7,7 @@ depends = []
 "copyq-commands.ini" = "~/AppData/Roaming/copyq/copyq-commands.ini"
 "copyq.ini" = "~/AppData/Roaming/copyq/copyq.ini"
 "tridactylrc" = "~/.tridactylrc"
+"PUBG-settings.ini" = "~/AppData/Local/TslGame/Saved/Config/WindowsNoEditor/GameUserSettings.ini"
 "init.vim" = { target = "~/AppData/Local/nvim/init.vim", type = "symbolic" }
 "init.first.vim" = { target = "~/AppData/Local/nvim/init.first.vim", type = "symbolic" }
 "init.plugins.vim" = { target = "~/AppData/Local/nvim/init.plugins.vim", type = "symbolic" }

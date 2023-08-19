@@ -17,4 +17,5 @@ ExitApp
 
 
 ; auto-create auto-startup link:
+; (note A_Startup likely expands to C:\Users\laur\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup
 ;FileCreateShortcut, %A_ScriptFullPath%, %A_Startup%\My AHK Script.lnk, %A_ScriptDir%

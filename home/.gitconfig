@@ -22,7 +22,10 @@
     longpaths = true
     fscache = true
     commitGraph = true
-    autocrlf = input
+    ; decent read on the line ending subject:
+    ;  - https://stackoverflow.com/a/48384768
+    ;  - https://adaptivepatchwork.com/2012/03/01/mind-the-end-of-your-line/
+    autocrlf = true
     safecrlf = true
     pager = delta
     preloadindex = true
