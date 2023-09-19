@@ -1,11 +1,29 @@
+:: elevate script privileges if executed as non-root
+:: from https://stackoverflow.com/a/24665214/1803648
+::::::::::::::::::::::::::::::::::::::::::::::::::::
+:: Check privileges
+net file 1>NUL 2>NUL
+if not '%errorlevel%' == '0' (
+    echo.
+    echo.
+    echo.
+    echo !!!
+    echo going to run system time update as root
+    echo !!!
+    pause
+    powershell Start-Process -FilePath "%0" -ArgumentList "%cd%" -verb runas >NUL 2>&1
+    exit /b
+)
+
+:: Change directory with passed argument. Processes started with
+:: "runas" start with forced C:\Windows\System32 workdir
+cd /d %1
+
+:: Actual work:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 REM start time-sync service. this is especially useful if we've disabled most
 REM daemons via ChrisTitusTech/winutil (or other similar debloater) -- otherwise
 REM our system time is possibly off.
-REM 
-REM add file to C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Startup
-REM from https://stackoverflow.com/a/35626035 (or more exactly, from the linked gist)
-REM ---------------------------------
-Rem run as administrator
+:: following logic from https://stackoverflow.com/a/35626035 (or more exactly, from the linked gist)
 @echo on & @setlocal enableextensions
 @echo =========================
 @echo Turn off the time service
@@ -22,5 +40,5 @@ w32tm /config /update
 @echo =======================================================
 @echo Reset the local computer's time against the time server
 w32tm /resync /rediscover
-REM pause  <-- uncomment for debugging
+::pause
 @endlocal & @goto :EOF

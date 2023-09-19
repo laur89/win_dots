@@ -122,13 +122,15 @@ if exist "%ahk_launcher%" (
     call:mkl "%appdata%\Microsoft\Windows\Start Menu\Programs\Startup\ahk-launcher" "%ahk_launcher%"
 )
 
+REM symlink other auto-start scripts/executables from our /root_startup dir:
 SET root_autostart_dir=%dots%\root_startup
 if exist "%root_autostart_dir%\*" (
-    forfiles /P "%root_autostart_dir%" /C "cmd /c mklink \"%programdata%\Microsoft\Windows\Start Menu\Programs\Startup\@FILE\"  @PATH"
+    forfiles /P "%root_autostart_dir%" /C "cmd /c mklink \"%appdata%\Microsoft\Windows\Start Menu\Programs\Startup\@FILE\"  @PATH"
 ) else (
     echo [%root_autostart_dir%] doesn't exist! won't symlink anything from it...
     pause
 )
+
 
 rem apply regedits: (disabled now as we get the function for free via UHK)
 rem if exist "%dots%\reg\*" (
