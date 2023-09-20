@@ -1,12 +1,11 @@
-:: elevate script privileges if executed as non-root
+:: first elevate script privileges if executed as non-root.
 :: from https://stackoverflow.com/a/24665214/1803648
 ::::::::::::::::::::::::::::::::::::::::::::::::::::
+@echo off
+
 :: Check privileges
 net file 1>NUL 2>NUL
 if not '%errorlevel%' == '0' (
-    echo.
-    echo.
-    echo.
     echo !!!
     echo going to run system time update as root
     echo !!!
