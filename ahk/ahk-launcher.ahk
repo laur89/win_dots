@@ -3,7 +3,7 @@
 ; so be careful when changing filename.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; give some time so we could stop faulty scripts at startup:
-Sleep, 10000
+Sleep, 6000
 
 Run "%A_AHKPath%" "%A_ScriptDir%\key-remap.ahk"
 Run "%A_AHKPath%" "%A_ScriptDir%\window-management.ahk"
