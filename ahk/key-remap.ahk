@@ -31,6 +31,14 @@ GroupAdd, ctrlAltRemap, ahk_class CabinetWClass  ; windows explorer
 	;^SC01A::ControlSend, VcXsrv/x, a
 #If
 
+; super+shift+z to toggle passwd manager window:
+#+z::
+  if WinActive("ahk_exe KeePassXC.exe")
+    WinClose A
+  else
+    Run "%PROGRAMFILES%\KeePassXC\KeePassXC.exe"
+return
+
 #f::
   ;MsgBox, Win-F was pressed! ; Arbitrary code here
   ;Send {^}{+}{F11}
