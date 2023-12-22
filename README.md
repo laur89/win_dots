@@ -1,5 +1,7 @@
 # win_dots
 
+Download windows image from [here](https://www.microsoft.com/en-us/download/windows)
+
 ## to install win11 without linking to MS account (and getting to choose your account name):
 - after selecting keeb layout, press `Shift+F10` & type `OOBE\BYPASSNRO` 
   - note it's not right after you've first booted from the USB; first the setup
