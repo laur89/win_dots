@@ -11,7 +11,7 @@ depends = []
 "pubg/PUBG-settings.ini" = "~/AppData/Local/TslGame/Saved/Config/WindowsNoEditor/GameUserSettings.ini"
 "pubg/Observer" =  { target = "~/AppData/Local/TslGame/Saved/Observer", type = "symbolic" }
 "display-switch.ini" = "~/AppData/Roaming/display-switch/display-switch.ini"
-"bin/display_switch-1.2.0.exe" = { target = "~/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/display_switch.exe", type = "symbolic" }
+"bin/display_switch-1.3.1.exe" = { target = "~/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/display_switch.exe", type = "symbolic" }
 "init.vim" = { target = "~/AppData/Local/nvim/init.vim", type = "symbolic" }
 "init.first.vim" = { target = "~/AppData/Local/nvim/init.first.vim", type = "symbolic" }
 "init.plugins.vim" = { target = "~/AppData/Local/nvim/init.plugins.vim", type = "symbolic" }
