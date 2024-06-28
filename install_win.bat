@@ -2,6 +2,7 @@
 rem original ver stolen from https://github.com/koppor/koppors-chocolatey-scripts/blob/master/install.bat  -- thanks @koppor
 rem -- to upgrade choco pkgs only, run      $ choco upgrade all
 rem TODO: consider boxstarter
+rem another great installation script in POSH: https://gist.github.com/mikepruett3/7ca6518051383ee14f9cf8ae63ba18a7
 
 echo This will first install chocolatey, then other tools
 echo .
