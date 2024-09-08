@@ -10,7 +10,7 @@ echo .
 pushd %SystemRoot%
 openfiles.exe 1>nul 2>&1
 if %errorlevel% neq 0 (
-    echo needs to be run as admin, abort
+    echo needs to be run as admin/root, abort
     pause
     exit 1
 )
