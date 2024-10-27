@@ -22,7 +22,7 @@ cd /d %1
 REM start time-sync service. this is especially useful if we've disabled most
 REM daemons via ChrisTitusTech/winutil (or other similar debloater) -- otherwise
 REM our system time is possibly off.
-:: following logic from https://stackoverflow.com/a/35626035 (or more exactly, from the linked gist)
+:: following logic from https://stackoverflow.com/a/35626035 (or more exactly, from the linked gist @ https://gist.github.com/thedom85/dbeb58627adfb3d5c3af)
 @echo on & @setlocal enableextensions
 @echo =========================
 @echo Turn off the time service
