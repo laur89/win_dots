@@ -8,6 +8,8 @@ Sleep, 6000
 Run "%A_AHKPath%" "%A_ScriptDir%\key-remap.ahk"
 Run "%A_AHKPath%" "%A_ScriptDir%\window-management.ahk"
 Run wt  -w _quake powershell -nologo -window minimized
+Run powershell -NoProfile -nologo -ExecutionPolicy Bypass -File "%A_ScriptDir%\..\scripts\launch-snapkey.ps1"
+Run powershell -NoProfile -nologo -ExecutionPolicy Bypass -File "%A_ScriptDir%\..\scripts\launch-steam-game.ps1"
 
 ; prep env for VcXsrv & launch it:
 ;Run "%A_AHKPath%" "%A_ScriptDir%\xserver-prep.ahk"
