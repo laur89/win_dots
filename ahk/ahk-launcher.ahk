@@ -9,8 +9,12 @@ Run "%A_AHKPath%" "%A_ScriptDir%\key-remap.ahk"
 Run "%A_AHKPath%" "%A_ScriptDir%\window-management.ahk"
 Run wt  -w _quake powershell -nologo -window minimized
 Run powershell -NoProfile -nologo -ExecutionPolicy Bypass -File "%A_ScriptDir%\..\scripts\launch-snapkey.ps1"
-Run powershell -NoProfile -nologo -ExecutionPolicy Bypass -File "%A_ScriptDir%\..\scripts\launch-steam-game-gui.ps1"
 ;Run powershell -NoProfile -nologo -ExecutionPolicy Bypass -File "%A_ScriptDir%\..\scripts\launch-steam-game-cli.ps1"
+
+; note conhost (and also -WindowStyle hidden opt) are for hiding the terminal window -- only the Form GUI should be visible.
+; this idea from https://www.reddit.com/r/PowerShell/comments/1cxeirf/how_do_you_completely_hide_the_powershell/l525neq/
+; note as of 2024 it still required additional hiding from script: https://stackoverflow.com/a/75919843/3344729
+Run conhost  powershell -NoProfile -nologo -WindowStyle hidden -ExecutionPolicy Bypass -File "%A_ScriptDir%\..\scripts\launch-steam-game-gui.ps1"
 
 ; prep env for VcXsrv & launch it:
 ;Run "%A_AHKPath%" "%A_ScriptDir%\xserver-prep.ahk"

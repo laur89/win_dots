@@ -4,6 +4,12 @@
 # no other statements prior to param()!
 #param([int]$delay=3, [string]$EventLabel="This is a test")
 
+# these 2 lines are to hide the terminal window: (from https://stackoverflow.com/a/75919843/3344729)
+# note to fully hide, it still requires launching posh.exe via conhost like: (conhost bit is from https://www.reddit.com/r/PowerShell/comments/1cxeirf/how_do_you_completely_hide_the_powershell/l525neq/)
+#  conhost  powershell -NoProfile -nologo -WindowStyle hidden -ExecutionPolicy Bypass -File %A_ScriptDir%\..\scripts\launch-steam-game-gui.ps1
+add-type -name user32 -namespace win32 -memberDefinition '[DllImport("user32.dll")] public static extern bool ShowWindow(IntPtr hWnd, Int32 nCmdShow);'
+[win32.user32]::showWindow((get-process -id $pid).mainWindowHandle, 0)
+
 Add-Type -AssemblyName System.Windows.Forms
 
 $Active_game=578080
