@@ -2,12 +2,12 @@
 ####################################################
 
 # no other statements prior to param()!
-#param([int]$delay=3, [string]$EventLabel="This is a test")
+#param([int]$Delay=3, [string]$EventLabel="This is a test")
 
 # these 2 lines are to hide the terminal window: (from https://stackoverflow.com/a/75919843/3344729)
 # note to fully hide, it still requires launching posh.exe via conhost like: (conhost bit is from https://www.reddit.com/r/PowerShell/comments/1cxeirf/how_do_you_completely_hide_the_powershell/l525neq/)
 #  conhost  powershell -NoProfile -nologo -WindowStyle hidden -ExecutionPolicy Bypass -File %A_ScriptDir%\..\scripts\launch-steam-game-gui.ps1
-add-type -name user32 -namespace win32 -memberDefinition '[DllImport("user32.dll")] public static extern bool ShowWindow(IntPtr hWnd, Int32 nCmdShow);'
+Add-Type -name user32 -namespace win32 -memberDefinition '[DllImport("user32.dll")] public static extern bool ShowWindow(IntPtr hWnd, Int32 nCmdShow);'
 [win32.user32]::showWindow((get-process -id $pid).mainWindowHandle, 0)
 
 Add-Type -AssemblyName System.Windows.Forms
@@ -17,11 +17,12 @@ $Steam_id_to_name = @{
     578080  = 'PUBG'
 }
 
-$delay=10  # in sec
+$Delay=10  # in sec
+$Alert_Threshold_sec=5  # should be less than $Delay
 #############################################
 
 
-Function On_Resize() {
+Function Update_Labels_And_Position_Elements() {
 	#$Counter_Event_Label.Left = ($Counter_Form.Width/2)-($EventLabel_Size.Width/2)
 	#$Counter_Event_Label.Top = ($Counter_Form.Height/2)-($EventLabel_Size.Height/2)
 	$Counter_Event_Label.Left = ($Counter_Form.Width/2)-($EventLabel_Size.Width/2)
@@ -40,11 +41,15 @@ Function On_Resize() {
 	#$Counter_Label.Top = $Counter_Form.Height * .3 # We want it near the bottom of the screen.
 	$Counter_Label.Top = ($Counter_Form.Height/2)-($EventLabel_Size.Height/2)
 	
-	if ($delay -gt 5) {
-		$Counter_LabelSize= [System.Windows.Forms.TextRenderer]::MeasureText($Counter_Label.Text, $normalfont) # we need this so we can figure where to put the countdown labeled, centered.
-
+	$Counter_Label.Text = Pprint_Remaining_Time
+	
+	if ($Delay -gt $Alert_Threshold_sec) {
+		#$Counter_Label.Font = $normalfont  # already set in the global scope
+		$Counter_LabelSize = [System.Windows.Forms.TextRenderer]::MeasureText($Counter_Label.Text, $normalfont)  # we need this so we can figure where to put the countdown labeled, centered.
 	} else {
-		$Counter_LabelSize= [System.Windows.Forms.TextRenderer]::MeasureText($Counter_Label.Text, $warningfont)
+		$Counter_Label.ForeColor = "Red"
+		$Counter_Label.Font = $warningfont
+		$Counter_LabelSize = [System.Windows.Forms.TextRenderer]::MeasureText($Counter_Label.Text, $warningfont)
 		$Counter_Label.Width = $Counter_LabelSize.Width + 10		
 	}
 	
@@ -53,9 +58,21 @@ Function On_Resize() {
 }
 
 
-Function Get_Remaining_Time() {
-	$msg = "" + ($delay % 60) + " sec"
-	$min = [int](([string]($delay/60)).split('.')[0])
+Function On_Timer_Tick() {
+    #$Counter_Form.Text = Get-Date -Format "HH:mm:ss"  # sets the window title
+	$global:Delay -= 1
+	
+	if ($Delay -gt 0) {
+		Update_Labels_And_Position_Elements
+	} else {
+		Do_Action
+	}
+}
+
+
+Function Pprint_Remaining_Time() {
+	$msg = "" + ($Delay % 60) + " sec"
+	$min = [int](([string]($Delay/60)).split('.')[0])
 	if ($min -gt 0) {
 		$msg = "" + $min + " min " + $msg
 	}
@@ -64,38 +81,14 @@ Function Get_Remaining_Time() {
 }
 
 
-Function Timer_Tick()
-{
-    #$Counter_Form.Text = Get-Date -Format "HH:mm:ss"  # sets the window title
-	$global:delay -= 1
-	
-	
-	if ($delay -gt 0) {
-		$Counter_Label.Text = Get_Remaining_Time
-		$Counter_Label.Font = $normalfont
-	  
-		if ($delay -le 5)  # Now things are getting close, let's change the color and make it bolder and underline it
-		{ 
-			$Counter_Label.ForeColor = "Red"
-			$Counter_Label.Font = $warningfont
-		} 
-
-		On_Resize
-	} else {
-		Do_Action
-	}
-}
-
-
-Function Form_Load()
-{
+Function On_Form_Load() {
     #$Counter_Form.Text = "Timer started"
-	$Counter_Label.Text = Get_Remaining_Time
+	$Counter_Label.Text = Pprint_Remaining_Time
 	#$Counter_Label.Text = "Timer started"
 	#$Counter_Label.Font = $normalfont
 	$Counter_Label.AutoSize = $true
 	
-	On_Resize
+	Update_Labels_And_Position_Elements
     $timer.Start()
 }
 
@@ -171,16 +164,16 @@ $Counter_Form.AcceptButton=$Counter_OKButton
 $Counter_Form.CancelButton=$Counter_CancelButton
 
 
-$Counter_Form.Add_Load({Form_Load})
-$Counter_Form.Add_Resize({On_Resize})
+$Counter_Form.Add_Load({On_Form_Load})
+$Counter_Form.Add_Resize({Update_Labels_And_Position_Elements})
 
 # Create the loop timer:
 $timer = New-Object System.Windows.Forms.Timer
 #$timer = [Diagnostics.Stopwatch]::StartNew()
 $timer.Interval = 1000
-$timer.Add_Tick({Timer_Tick})
+$timer.Add_Tick({On_Timer_Tick})
 
 
 # Finally, we show the dialog
 $topmost = New-Object 'System.Windows.Forms.Form' -Property @{TopMost=$true}  # ensure window is on the top
-$Counter_Form.ShowDialog($topmost) | Out-Null  #absorbs cancel message at end
+$Counter_Form.ShowDialog($topmost) | Out-Null  # absorbs cancel message at end
