@@ -37,6 +37,16 @@ windows setup &amp; bootstrapping
     on the debloating subject
 - run `dotter.exe deploy --force` from win_dots/dotter  (--force to overwrite existing files)
 
+## To execute programs/script as root/admin on startup (from [here](https://superuser.com/a/1005216/716639)):
+
+- open 'Task Scheduler'
+- click 'New task'
+- in 'General' tab:
+  - tick 'Run whether user is logged on or not' (unsure whether this is really needed)
+  - tick 'Run with highest privileges'
+- in 'Triggers' tab, add New and  Begin the task->At startup
+- in 'Actions' tab, schoose 'Start a program' from dropdown add new and point script path to target
+
 
 ## WSL2 quickstart (all commands from posh, admin only needed for install):
 
