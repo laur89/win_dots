@@ -14,13 +14,13 @@ $Startup_msg="Launching $($Steam_id_to_name[$Active_game]) in..."
 $Lenght = $T_sec / 100
 
 For (; $T_sec -gt 0; $T_sec--) {
-	$msg = "" + ($T_sec % 60) + " sec"
-	$min = [int](([string]($T_sec/60)).split('.')[0])
-	if ($min -gt 0) {
-		$msg = "" + $min + " min " + $msg
-	}
-	Write-Progress -Activity $Startup_msg -Status $msg -PercentComplete ($T_sec / $Lenght)
-	Start-Sleep -Seconds 1
+    $msg = "" + ($T_sec % 60) + " sec"
+    $min = [int](([string]($T_sec/60)).split('.')[0])
+    if ($min -gt 0) {
+        $msg = "" + $min + " min " + $msg
+    }
+    Write-Progress -Activity $Startup_msg -Status $msg -PercentComplete ($T_sec / $Lenght)
+    Start-Sleep -Seconds 1
 }
 
 Start-Process "steam://rungameid/$Active_game"

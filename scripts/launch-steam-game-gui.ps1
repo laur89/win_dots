@@ -2,7 +2,7 @@
 ####################################################
 
 # no other statements prior to param()!
-#param([int]$Delay=3, [string]$EventLabel="This is a test")
+#param([int]$Delay_Sec=3, [string]$EventLabel="This is a test")
 
 # these 2 lines are to hide the terminal window: (from https://stackoverflow.com/a/75919843/3344729)
 # note to fully hide, it still requires launching posh.exe via conhost like: (conhost bit is from https://www.reddit.com/r/PowerShell/comments/1cxeirf/how_do_you_completely_hide_the_powershell/l525neq/)
@@ -17,91 +17,91 @@ $Steam_id_to_name = @{
     578080  = 'PUBG'
 }
 
-$Delay=10  # in sec
-$Alert_Threshold_sec=5  # should be less than $Delay
+$Delay_Sec=10  # in sec
+$Alert_Threshold_Sec=5  # should be less than $Delay_Sec
 #############################################
 
 
 Function Update_Labels_And_Position_Elements() {
-	#$Counter_Event_Label.Left = ($Counter_Form.Width/2)-($EventLabel_Size.Width/2)
-	#$Counter_Event_Label.Top = ($Counter_Form.Height/2)-($EventLabel_Size.Height/2)
-	$Counter_Event_Label.Left = ($Counter_Form.Width/2)-($EventLabel_Size.Width/2)
-	$Counter_Event_Label.Top = $Counter_Form.Height * .3 # We want it near the bottom of the screen.
-	
-	#$Counter_OKButton.Left = ($Counter_Form.Width/2)-($EventLabel_Size.Width/2)
-	$Counter_OKButton.Left = ($Counter_Form.Width/2) - $Counter_OKButton.Width - 5
-	#$Counter_OKButton.Top = ($Counter_Form.Height/2)-($EventLabel_Size.Height/2)
-	$Counter_OKButton.Top = $Counter_Form.Height - 80
-	
-	$Counter_CancelButton.Left = $Counter_OKButton.Left + $Counter_OKButton.Width + 10
-	#$Counter_CancelButton.Top = 40
-	$Counter_CancelButton.Top = $Counter_Form.Height - 80
-	
-	
-	#$Counter_Label.Top = $Counter_Form.Height * .3 # We want it near the bottom of the screen.
-	$Counter_Label.Top = ($Counter_Form.Height/2)-($EventLabel_Size.Height/2)
-	
-	$Counter_Label.Text = Pprint_Remaining_Time
-	
-	if ($Delay -gt $Alert_Threshold_sec) {
-		#$Counter_Label.Font = $normalfont  # already set in the global scope
-		$Counter_LabelSize = [System.Windows.Forms.TextRenderer]::MeasureText($Counter_Label.Text, $normalfont)  # we need this so we can figure where to put the countdown labeled, centered.
-	} else {
-		$Counter_Label.ForeColor = "Red"
-		$Counter_Label.Font = $warningfont
-		$Counter_LabelSize = [System.Windows.Forms.TextRenderer]::MeasureText($Counter_Label.Text, $warningfont)
-		$Counter_Label.Width = $Counter_LabelSize.Width + 10		
-	}
-	
-	$Counter_Label.Left = ($Counter_Form.Width/2)-($Counter_LabelSize.Width/2)
-	$Counter_Label.AutoSize = $true
+    #$Counter_Event_Label.Left = ($Counter_Form.Width/2)-($EventLabel_Size.Width/2)
+    #$Counter_Event_Label.Top = ($Counter_Form.Height/2)-($EventLabel_Size.Height/2)
+    $Counter_Event_Label.Left = ($Counter_Form.Width/2)-($EventLabel_Size.Width/2)
+    $Counter_Event_Label.Top = $Counter_Form.Height * .3 # We want it near the bottom of the screen.
+    
+    #$Counter_OKButton.Left = ($Counter_Form.Width/2)-($EventLabel_Size.Width/2)
+    $Counter_OKButton.Left = ($Counter_Form.Width/2) - $Counter_OKButton.Width - 5
+    #$Counter_OKButton.Top = ($Counter_Form.Height/2)-($EventLabel_Size.Height/2)
+    $Counter_OKButton.Top = $Counter_Form.Height - 80
+    
+    $Counter_CancelButton.Left = $Counter_OKButton.Left + $Counter_OKButton.Width + 10
+    #$Counter_CancelButton.Top = 40
+    $Counter_CancelButton.Top = $Counter_Form.Height - 80
+    
+    
+    #$Counter_Label.Top = $Counter_Form.Height * .3 # We want it near the bottom of the screen.
+    $Counter_Label.Top = ($Counter_Form.Height/2)-($EventLabel_Size.Height/2)
+    
+    $Counter_Label.Text = Pprint_Remaining_Time
+    
+    if ($Delay_Sec -gt $Alert_Threshold_Sec) {
+        #$Counter_Label.Font = $normalfont  # already set in the global scope
+        $Counter_LabelSize = [System.Windows.Forms.TextRenderer]::MeasureText($Counter_Label.Text, $normalfont)  # we need this so we can figure where to put the countdown labeled, centered.
+    } else {
+        $Counter_Label.ForeColor = "Red"
+        $Counter_Label.Font = $warningfont
+        $Counter_LabelSize = [System.Windows.Forms.TextRenderer]::MeasureText($Counter_Label.Text, $warningfont)
+        $Counter_Label.Width = $Counter_LabelSize.Width + 10        
+    }
+    
+    $Counter_Label.Left = ($Counter_Form.Width/2)-($Counter_LabelSize.Width/2)
+    $Counter_Label.AutoSize = $true
 }
 
 
 Function On_Timer_Tick() {
     #$Counter_Form.Text = Get-Date -Format "HH:mm:ss"  # sets the window title
-	$global:Delay -= 1
-	
-	if ($Delay -gt 0) {
-		Update_Labels_And_Position_Elements
-	} else {
-		Do_Action
-	}
+    $global:Delay_Sec -= 1
+    
+    if ($Delay_Sec -gt 0) {
+        Update_Labels_And_Position_Elements
+    } else {
+        Do_Action
+    }
 }
 
 
 Function Pprint_Remaining_Time() {
-	$msg = "" + ($Delay % 60) + " sec"
-	$min = [int](([string]($Delay/60)).split('.')[0])
-	if ($min -gt 0) {
-		$msg = "" + $min + " min " + $msg
-	}
-	
-	return $msg
+    $msg = "" + ($Delay_Sec % 60) + " sec"
+    $min = [int](([string]($Delay_Sec/60)).split('.')[0])
+    if ($min -gt 0) {
+        $msg = "" + $min + " min " + $msg
+    }
+    
+    return $msg
 }
 
 
 Function On_Form_Load() {
     #$Counter_Form.Text = "Timer started"
-	$Counter_Label.Text = Pprint_Remaining_Time
-	#$Counter_Label.Text = "Timer started"
-	#$Counter_Label.Font = $normalfont
-	$Counter_Label.AutoSize = $true
-	
-	Update_Labels_And_Position_Elements
+    $Counter_Label.Text = Pprint_Remaining_Time
+    #$Counter_Label.Text = "Timer started"
+    #$Counter_Label.Font = $normalfont
+    $Counter_Label.AutoSize = $true
+    
+    Update_Labels_And_Position_Elements
     $timer.Start()
 }
 
 
 Function Stop_Timer_And_Close() {
-	$timer.Stop()
-	$counter_form.Close() 
+    $timer.Stop()
+    $counter_form.Close() 
 }
 
 
 Function Do_Action() {
-	Stop_Timer_And_Close
-	Start-Process "steam://rungameid/$Active_game"
+    Stop_Timer_And_Close
+    Start-Process "steam://rungameid/$Active_game"
 }
 
 
