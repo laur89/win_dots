@@ -26,8 +26,10 @@ if "%~1"=="" (
 :: enable delayed expansion, so we can get the updated date-time
 setlocal enableextensions EnableDelayedExpansion
 
-rem find remote time:
-For /F "tokens=6" %%G In ('%__AppDir__%curl.exe --retry 2 --connect-timeout 3 --max-time 6 -s --insecure --head -- "https://www.google.com" ^| %__AppDir__%findstr.exe /r /i /c:"^Date:"') Do Set "response=%%G"
+rem find remote time: (alternatively try http://www.google.com)
+For /F "tokens=6" %%G In ('%__AppDir__%curl.exe --retry 2 --connect-timeout 3 --max-time 6 -s ^
+--insecure --head -- "http://1.1.1.1" ^| %__AppDir__%findstr.exe /r /i /c:"^Date:"') Do Set "response=%%G"
+
 if "%response%" equ "" (
     @echo looks like remote datetime fetch failed, aborting
     rem pause
