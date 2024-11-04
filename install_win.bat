@@ -134,7 +134,7 @@ rem     pause
 rem )
 
 
-rem apply regedits: (disabled now as we get the function for free via UHK)
+rem apply regedits: (disabled now as we get the caps-as-esc function for free via UHK)
 rem if exist "%dots%\reg\*" (
 rem     regedit.exe /s "%dots%\reg\caps-as-esc.reg"
 rem )
