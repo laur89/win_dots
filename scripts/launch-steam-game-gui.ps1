@@ -2,7 +2,7 @@
 ####################################################
 
 # no other statements prior to param()!
-#param([int]$Delay_Sec=3, [string]$EventLabel="This is a test")
+param([int]$Active_game, [string]$Game_label)
 
 # these 2 lines are to hide the terminal window: (from https://stackoverflow.com/a/75919843/3344729)
 # note to fully hide, it still requires launching posh.exe via conhost like: (conhost bit is from https://www.reddit.com/r/PowerShell/comments/1cxeirf/how_do_you_completely_hide_the_powershell/l525neq/)
@@ -12,10 +12,21 @@ Add-Type -name user32 -namespace win32 -memberDefinition '[DllImport("user32.dll
 
 Add-Type -AssemblyName System.Windows.Forms
 
-$Active_game=578080
 $Steam_id_to_name = @{
     578080  = 'PUBG'
 }
+
+if (!$Active_game) {
+    $Active_game=578080  # default game to launch
+}
+if (!$Game_label) {
+    if ($Steam_id_to_name[$Active_game]) {
+        $Game_label = $Steam_id_to_name[$Active_game]
+    } else {
+        $Game_label = "game"
+    }
+}
+
 
 $Delay_Sec=10  # in sec
 $Alert_Threshold_Sec=5  # should be less than $Delay_Sec
@@ -132,8 +143,7 @@ $Counter_Label = New-Object System.Windows.Forms.Label
 $Counter_Label.ForeColor = "Green"
 $Counter_Label.Font = $normalfont
 
-
-$EventLabel_Text = "Launching $($Steam_id_to_name[$Active_game]) in..."
+$EventLabel_Text = "Launching $Game_label in..."
 $EventLabel_Size = [System.Windows.Forms.TextRenderer]::MeasureText($EventLabel_Text, $normalfont)
 $Counter_Event_Label = New-Object System.Windows.Forms.Label
 $Counter_Event_Label.Width = $EventLabel_Size.Width+6  # Apparently despite giving it the string, we need a little extra room.
