@@ -20,9 +20,8 @@ if (!$Active_game) {
     $Active_game=578080  # default game to launch
 }
 if (!$Game_label) {
-    if ($Steam_id_to_name[$Active_game]) {
-        $Game_label = $Steam_id_to_name[$Active_game]
-    } else {
+    $Game_label = $Steam_id_to_name[$Active_game]
+    if (!$Game_label) {
         $Game_label = "game"
     }
 }
