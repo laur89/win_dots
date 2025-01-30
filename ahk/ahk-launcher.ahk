@@ -8,7 +8,9 @@ Sleep, 2500
 Run "%A_AHKPath%" "%A_ScriptDir%\key-remap.ahk"
 Run "%A_AHKPath%" "%A_ScriptDir%\window-management.ahk"
 Run wt  -w _quake powershell -nologo -window minimized
+
 Run powershell -NoProfile -nologo -ExecutionPolicy Bypass -File "%A_ScriptDir%\..\scripts\launch-snapkey.ps1"
+Run powershell -NoProfile -nologo -ExecutionPolicy Bypass -File "%A_ScriptDir%\..\scripts\pubg-maintenance.ps1"
 ;Run powershell -NoProfile -nologo -ExecutionPolicy Bypass -File "%A_ScriptDir%\..\scripts\launch-steam-game-cli.ps1"
 
 ; note conhost (and also -WindowStyle hidden opt) are for hiding the terminal window -- only the Form GUI should be visible.
