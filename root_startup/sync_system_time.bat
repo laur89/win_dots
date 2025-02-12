@@ -3,6 +3,9 @@
 ::::::::::::::::::::::::::::::::::::::::::::::::::::
 @echo off
 
+:: make sure TIME_SOURCE supports ping (alternatively try www.google.com)
+set TIME_SOURCE=1.1.1.1
+
 :: Check privileges
 net file 1>NUL 2>NUL
 if not '%errorlevel%' == '0' (
@@ -23,12 +26,19 @@ if "%~1"=="" (
     cd /d %1
 )
 
+:: wait until we have connection to outside world
+:loop
+timeout /t 5 >nul
+ping "%TIME_SOURCE%" /n 1 /w 1000 |find "TTL=" >nul
+if errorlevel 1 goto :loop
+timeout /t 2 >nul
+
 :: enable delayed expansion, so we can get the updated date-time
 setlocal enableextensions EnableDelayedExpansion
 
-rem find remote time: (alternatively try http://www.google.com)
-For /F "tokens=6" %%G In ('%__AppDir__%curl.exe --retry 2 --connect-timeout 3 --max-time 6 -s ^
---insecure --head -- "http://1.1.1.1" ^| %__AppDir__%findstr.exe /r /i /c:"^Date:"') Do Set "response=%%G"
+rem find remote time:
+For /F "tokens=6" %%G In ('%__AppDir__%curl.exe --retry 3 --connect-timeout 3 --max-time 4 -s ^
+--insecure --head -- "http://%TIME_SOURCE%" ^| %__AppDir__%findstr.exe /r /i /c:"^Date:"') Do Set "response=%%G"
 
 if "%response%" equ "" (
     @echo looks like remote datetime fetch failed, aborting

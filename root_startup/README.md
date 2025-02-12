@@ -12,8 +12,9 @@
 - ~~in 'Conditions' tab, at the botton under 'Network' section,
   tick 'Start only if...', and select 'Network' from dropdown~~
   - !! nope, looks like it's [broken](https://superuser.com/a/1146860/716639). if you `Enable All Tasks History` 
-    and reproduce, then in task's History tab I got `Task Category: Launch condition not met, network unavailable`
-	Instead of this condition, just add a delay under the trigger: advanced settings -> delay for 30 seconds
+    and reproduce, then in task's History tab I got `Task Category: Launch condition not met, network unavailable`.
+	Instead of this condition, just add a delay under the trigger: advanced settings -> delay for X seconds.
+    Or add network-waiting loop in the script itself.
 
 
 - note this dir also contains some exported task scheduler jobs (.xml) as reference
