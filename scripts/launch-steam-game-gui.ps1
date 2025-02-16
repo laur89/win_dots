@@ -186,3 +186,5 @@ $timer.Add_Tick({On_Timer_Tick})
 # Finally, we show the dialog
 $topmost = New-Object 'System.Windows.Forms.Form' -Property @{TopMost=$true}  # ensure window is on the top
 $Counter_Form.ShowDialog($topmost) | Out-Null  # absorbs cancel message at end
+
+Exit 0
