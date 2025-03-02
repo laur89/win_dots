@@ -102,6 +102,6 @@ REM our system time is possibly off.
 
     @echo end: user: %username% @ !date! !time!
     @echo -------------------------------------------------------------------------------------------
-rem )
-)  >> C:\Users\%username%\Desktop\sync_time_log.txt
+)
+rem )  >> C:\Users\%username%\Desktop\sync_time_log.txt
 @endlocal & @goto :EOF
