@@ -191,7 +191,8 @@ rem TODO: both lghub & greenshot seem to hand the temrinal:
 rem choco install lghub
 rem choco install greenshot
 
-choco install hwmonitor
+rem choco install hwmonitor  reddit says hwmonitor is shit, better use HWinfo64
+choco install hwinfo
 
 
 rem Context menu for Windows Explorer to offer "Copy Unix Path", "Copy Long UNC Path", ...
