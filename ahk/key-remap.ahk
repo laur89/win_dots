@@ -44,7 +44,12 @@ return
   ;Send {^}{+}{F11}
   ;Send {LWin Up}{Control}{Shift}{F11}
   ;Send {Win Up}
-  Send {F11}
+  
+  ; discord doesn't seem to respect F11 (see https://support.discord.com/hc/en-us/community/posts/360055174871-Fullscreen-mode)
+  if WinActive("ahk_exe Discord.exe")
+    Send ^+f
+  else
+    Send {F11}
 return
 
 ; alt+i to send win+`, triggering the quake-style terminal (have to be started with wt -w _quake first):
