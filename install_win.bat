@@ -186,7 +186,7 @@ choco install discord
 choco install signal
 choco install copyq
 rem choco install fiddler
-choco install altdrag
+choco install altsnap
 rem TODO: both lghub & greenshot seem to hand the temrinal:
 rem choco install lghub
 rem choco install greenshot
