@@ -3,13 +3,33 @@
 Download windows image from [here](https://www.microsoft.com/en-us/download/windows)
 
 ## to install win11 without linking to MS account (and getting to choose your account name):
+
+### first method (as of '25) [from this thread](https://www.reddit.com/r/sysadmin/comments/1jmgkfk/microsoft_is_removing_the_bypassnro_command_from/mkgjurm/)
+- after selecting keeb layout, press `Shift+F10` & type `OOBE\BYPASSNRO` 
+  - note it's not right after you've first booted from the USB; first the setup
+    will have to copy the files to our installation drive, only after the first
+    (couple) reboots we can do this step;
+  - **actually unsure whether this is needed... looks like this bypass can be
+    launched at the very beginning?**
+- type `start ms-cxh:localonly`
+- this pulls up local user creation form
+
+### second account bypass method from abovementioned reddit thread:
+- instead, try: (requires Pro version!)
+    - choose `work or school account`
+    - select `sign-in options` where is opt to `domain-join this device instead`
+
+### deprecated method not working as of '25:
 - after selecting keeb layout, press `Shift+F10` & type `OOBE\BYPASSNRO` 
   - note it's not right after you've first booted from the USB; first the setup
     will have to copy the files to our installation drive, only after the first
     (couple) reboots we can do this step;
   - don't forget to unplug eth cable!
+  - **as of 2025**: [this reddit post](https://www.reddit.com/r/sysadmin/comments/1jmgkfk/microsoft_is_removing_the_bypassnro_command_from/)
+    claims this feature is removed
 
-windows setup &amp; bootstrapping
+
+## windows setup &amp; bootstrapping
 
 - download `install_win.bat` and run as admin (ie right click -> admin); note
   it's important to just download the file instead of git clone - otherwise the
@@ -24,7 +44,7 @@ windows setup &amp; bootstrapping
   then you've likely changed your windows/GroupAD password, and that needs to
   [be updated in Windows Credential Manager](https://stackoverflow.com/a/52092795/1803648)
 
---------------
+---
 
 ## After clean win installation checklist:
 
