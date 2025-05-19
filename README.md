@@ -88,8 +88,9 @@ Instructions taken mainly from [MS WSL2 installation guide](https://learn.micros
   - to set default linux distro used w/ `wsl` command, run `wsl --setdefault Debian`;
     now running `wsl npm init` will run `npm init` in debian;
   - note as of WSL2 it's possible to run GUI programs without vcxsrv and the
-    likes: https://learn.microsoft.com/en-us/windows/wsl/tutorials/gui-apps#run-linux-gui-apps
-    - this feature uses `WSLg`;
+    likes: https://learn.microsoft.com/en-us/windows/wsl/tutorials/gui-apps#run-linux-gui-apps !!!!
+    - gh: https://github.com/microsoft/wslg
+    - this feature uses `WSLg`; (looks like it's been merged w/ wsl2)
     - looks like WSLg [ships Weston w/ a built-in window manager that can't be replaced](https://github.com/microsoft/wslg/issues/47#issuecomment-825378818),
       meaning no full desktop experience like i3;
     - however [this gh comment](https://github.com/microsoft/wslg/issues/47#issuecomment-862026696)
