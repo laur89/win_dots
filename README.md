@@ -102,6 +102,8 @@ Instructions taken mainly from [MS WSL2 installation guide](https://learn.micros
     - https://www.reddit.com/r/bashonubuntuonwindows/comments/m14puc/x_server_with_vpn_connected_via_wsld_wsl_daemon/
     - [instructions on preserving x11 connection through
       sleep/hibernation/VPN](https://www.reddit.com/r/bashonubuntuonwindows/comments/m14puc/x_server_with_vpn_connected_via_wsld_wsl_daemon/)
+  - [share env vars between WSL and windows](https://devblogs.microsoft.com/commandline/share-environment-vars-between-wsl-and-windows/)
+  - [blog post on how to fwd ssh agent requests from wsl to windows](https://stuartleeks.com/posts/wsl-ssh-key-forward-to-windows/)
 
 ## misc
 
