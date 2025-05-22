@@ -69,3 +69,6 @@ return
 ; map ctrl+y to ctrl+shift+z to better mimic redo on loonix:
 ; TODO: causes keymap language to be changed/toggled! if no other language is available it's a non-issue though.
 $^+z::Send ^y
+
+; display the expo:
+!e::Send #{Tab}
