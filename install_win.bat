@@ -202,6 +202,8 @@ choco install path-copy-copy
 rem https://github.com/schollz/croc?tab=readme-ov-file#on-windows
 choco install croc
 
+choco install nushell
+
 rem choco install erlang
 rem choco install rebar3
 
