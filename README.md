@@ -1,6 +1,9 @@
 # win_dots
 
-Download windows image from [here](https://www.microsoft.com/en-us/download/windows)
+## Prepare installation media
+
+- download windows image from [here](https://www.microsoft.com/en-us/download/windows)
+- burn onto usb using [ventoy](https://github.com/ventoy/Ventoy)
 
 ## to install win11 without linking to MS account (and getting to choose your account name):
 
