@@ -5,14 +5,12 @@ Download windows image from [here](https://www.microsoft.com/en-us/download/wind
 ## to install win11 without linking to MS account (and getting to choose your account name):
 
 ### first method (as of '25) [from this thread](https://www.reddit.com/r/sysadmin/comments/1jmgkfk/microsoft_is_removing_the_bypassnro_command_from/mkgjurm/)
-- after selecting keeb layout, press `Shift+F10` & type `OOBE\BYPASSNRO` 
+- after selecting keeb layout, press `Shift+F10` & type `start ms-cxh:localonly`
   - note it's not right after you've first booted from the USB; first the setup
     will have to copy the files to our installation drive, only after the first
     (couple) reboots we can do this step;
-  - **actually unsure whether this is needed... looks like this bypass can be
+  - **actually unsure whether waiting is needed... looks like this bypass can be
     launched at the very beginning?**
-- type `start ms-cxh:localonly`
-- this pulls up local user creation form
 
 ### second account bypass method from abovementioned reddit thread:
 - instead, try: (requires Pro version!)
