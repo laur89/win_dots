@@ -1,3 +1,5 @@
+#Include %A_ScriptDir%\funcs.ahk
+
 ; to be executed by symlink in %appdata%...\Startup dir;
 ; this script is likely managed by a system setup script,
 ; so be careful when changing filename.
@@ -7,7 +9,6 @@ Sleep, 2500
 
 Run "%A_AHKPath%" "%A_ScriptDir%\key-remap.ahk"
 Run "%A_AHKPath%" "%A_ScriptDir%\window-management.ahk"
-Run wt  -w _quake powershell -nologo -window minimized
 
 Run powershell -NoProfile -nologo -ExecutionPolicy Bypass -File "%A_ScriptDir%\..\scripts\launch-snapkey.ps1"
 Run powershell -NoProfile -nologo -ExecutionPolicy Bypass -File "%A_ScriptDir%\..\scripts\pubg-maintenance.ps1"
@@ -21,6 +22,14 @@ Run conhost  powershell -NonInteractive -NoProfile -nologo -WindowStyle hidden -
 ; prep env for VcXsrv & launch it:
 ;Run "%A_AHKPath%" "%A_ScriptDir%\xserver-prep.ahk"
 ;Run "%A_ScriptDir%\..\config.xlaunch"
+
+; set exec policy, so our custom posh profiles (e.g. ~/Documents/WindowsPowerShell/Profile.ps1) can be loaded: (from https://stackoverflow.com/a/79403172)
+Run powershell -NonInteractive -NoProfile -nologo Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+
+Run wt -w _quake powershell -nologo -window minimized -NoExit -command "`$Host.UI.RawUI.WindowTitle = '__quake_term'"
+Sleep, 800
+InitQuakeTerm("ahk_class CASCADIA_HOSTING_WINDOW_CLASS")
+;WinMinimize, "ahk_class CASCADIA_HOSTING_WINDOW_CLASS"
 
 ExitApp
 

@@ -1,4 +1,5 @@
 #NoEnv
+#Include %A_ScriptDir%\funcs.ahk
 ; #Warn                      ; Enable warnings to assist with detecting common errors.
 SendMode Input               ; Recommended for new scripts due to its superior speed and reliability.
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
@@ -55,11 +56,16 @@ return
 ; alt+i to send win+`, triggering the quake-style terminal (have to be started with wt -w _quake first):
 !i::
   DetectHiddenWindows, on
-  if WinExist("ahk_class CASCADIA_HOSTING_WINDOW_CLASS")
+  if WinExist("ahk_class CASCADIA_HOSTING_WINDOW_CLASS") {
     ;Send {Alt up}
     Send #``
-  else
-    Run wt -w _quake powershell -nologo
+    Sleep, 40
+    MoveQuakeTerm("ahk_class CASCADIA_HOSTING_WINDOW_CLASS")
+  } else {
+    Run wt -w _quake powershell -nologo -NoExit -command "`$Host.UI.RawUI.WindowTitle = '__quake_term'"
+    Sleep, 800
+    InitQuakeTerm("ahk_class CASCADIA_HOSTING_WINDOW_CLASS")
+  }
   DetectHiddenWindows, off
 return
 
