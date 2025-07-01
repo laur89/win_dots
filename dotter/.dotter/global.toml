@@ -8,8 +8,12 @@ depends = []
 "copyq.ini" = "~/AppData/Roaming/copyq/copyq.ini"
 "keepassxc.ini" = "~/AppData/Roaming/KeePassXC/keepassxc.ini"
 "tridactylrc" = "~/.tridactylrc"
+"posh-profile.ps1" = "~/Documents/WindowsPowerShell/Profile.ps1"
 "pubg/PUBG-settings.ini" = "~/AppData/Local/TslGame/Saved/Config/WindowsNoEditor/GameUserSettings.ini"
 "pubg/Observer" =  { target = "~/AppData/Local/TslGame/Saved/Observer", type = "symbolic" }
+"komorebi/komorebi.json" = "~/komorebi.json"
+"komorebi/komorebi.bar.json" = "~/komorebi.bar.json"
+"komorebi/applications.json" = "~/applications.json"
 "display-switch.ini" = "~/AppData/Roaming/display-switch/display-switch.ini"
 "bin/display_switch.exe" = { target = "~/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/display_switch.exe", type = "symbolic" }
 "init.vim" = { target = "~/AppData/Local/nvim/init.vim", type = "symbolic" }
