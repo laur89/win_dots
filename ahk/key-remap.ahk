@@ -64,7 +64,7 @@ return
   } else {
     ;Run wt -w _quake powershell -nologo -NoExit -command "`$Host.UI.RawUI.WindowTitle = '__quake_term'"
     Run wt -w _quake powershell -nologo -NoExit -File "%A_ScriptDir%\posh-with-window-title.ps1" "__quake_term"
-    Sleep, 800
+    Sleep, 1000
     InitQuakeTerm("__quake_term")
   }
   DetectHiddenWindows, off
