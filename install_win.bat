@@ -195,6 +195,11 @@ rem choco install hwmonitor  reddit says hwmonitor is shit, better use HWinfo64
 choco install hwinfo
 
 rem install tiling window manager, see https://github.com/LGUG2Z/komorebi
+rem alternatives:
+rem  - https://github.com/glzr-io/glazewm   - inspired by i3
+rem  - https://github.com/policastro/mondrian
+rem  - https://github.com/agent-kilo/jwno
+rem  - https://github.com/dalyIsaac/Whim
 choco install komorebi
 rem enable komorebi autostart, see https://lgug2z.github.io/komorebi/common-workflows/autostart.html:
 where /q komorebic.exe
@@ -209,6 +214,11 @@ rem https://github.com/schollz/croc?tab=readme-ov-file#on-windows
 choco install croc
 
 choco install nushell
+
+rem see https://github.com/lin-ycv/EverythingPowerToys/wiki
+choco install powertoys
+choco install everything
+choco install everythingpowertoys
 
 rem choco install erlang
 rem choco install rebar3
