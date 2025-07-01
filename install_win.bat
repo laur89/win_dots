@@ -30,7 +30,7 @@ SET dest=%userprofile%\dev
 SET dots=%dest%\win_dots
 SET private_dots=%dest%\private_dots
 
-where choco.exe 1>nul 2>&1
+where /q choco.exe
 if %errorlevel% neq 0 (
     rem chocolatey is not installed, do it; from: https://chocolatey.org/install
     powershell -NoProfile -ExecutionPolicy Bypass -Command^
@@ -38,7 +38,7 @@ if %errorlevel% neq 0 (
      && SET "PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin"
 
     rem sanity:
-    where choco.exe 1>nul 2>&1
+    where /q choco.exe
     if %errorlevel% neq 0 (
         echo choco pkg manager installed - please restart the script
         pause
@@ -193,6 +193,12 @@ rem choco install greenshot
 
 rem choco install hwmonitor  reddit says hwmonitor is shit, better use HWinfo64
 choco install hwinfo
+
+rem install tiling window manager, see https://github.com/LGUG2Z/komorebi
+choco install komorebi
+rem enable komorebi autostart, see https://lgug2z.github.io/komorebi/common-workflows/autostart.html:
+where /q komorebic.exe
+if %errorlevel% equ 0 komorebic.exe enable-autostart --ahk --bar
 
 
 rem Context menu for Windows Explorer to offer "Copy Unix Path", "Copy Long UNC Path", ...
