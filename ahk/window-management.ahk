@@ -13,6 +13,7 @@ CenterWindow(WinTitle)
 }
 
 ; alt+; to center active window on our screen:
+; TODO: possibly conflicts w/ komorebi's default Komorebic("unstack") binding
 !`;::CenterWindow("A")
 
 ; or to center a specific window:
