@@ -1,6 +1,7 @@
 # from https://www.red-gate.com/simple-talk/sysadmin/powershell/building-a-countdown-timer-with-powershell/
 ####################################################
 
+$title='steam-launch-countdown'  # window title; do not change, possibly referenced by window manager/other ahk configs
 # no other statements prior to param()!
 param([int]$Active_game, [string]$Game_label)
 
@@ -8,6 +9,8 @@ param([int]$Active_game, [string]$Game_label)
 # note to fully hide, it still requires launching posh.exe via conhost like: (conhost bit is from https://www.reddit.com/r/PowerShell/comments/1cxeirf/how_do_you_completely_hide_the_powershell/l525neq/)
 #  conhost  powershell -NoProfile -nologo -WindowStyle hidden -ExecutionPolicy Bypass -File %A_ScriptDir%\..\scripts\launch-steam-game-gui.ps1
 Add-Type -name user32 -namespace win32 -memberDefinition '[DllImport("user32.dll")] public static extern bool ShowWindow(IntPtr hWnd, Int32 nCmdShow);'
+Add-Type -AssemblyName Microsoft.VisualBasic
+
 [win32.user32]::showWindow((get-process -id $pid).mainWindowHandle, 0)
 
 Add-Type -AssemblyName System.Windows.Forms
@@ -71,6 +74,7 @@ Function Update_Labels_And_Position_Elements() {
 Function On_Timer_Tick() {
     #$Counter_Form.Text = Get-Date -Format "HH:mm:ss"  # sets the window title
     $global:Delay_Sec -= 1
+    [Microsoft.VisualBasic.Interaction]::AppActivate($title)  # force-steal focus
     
     if ($Delay_Sec -gt 0) {
         Update_Labels_And_Position_Elements
@@ -123,7 +127,7 @@ $monitorwidth = $monitordetails.Width
 
 # Setup initial form
 $Counter_Form = New-Object System.Windows.Forms.Form
-$Counter_Form.Text = "Countdown"  # window title
+$Counter_Form.Text = $title
 $Counter_Form.Height = $monitorheight * .30
 $Counter_Form.Width = $monitorwidth * .40
 $Counter_Form.WindowState = "Normal"
