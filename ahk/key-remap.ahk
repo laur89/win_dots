@@ -56,15 +56,16 @@ return
 ; alt+i to send win+`, triggering the quake-style terminal (have to be started with wt -w _quake first):
 !i::
   DetectHiddenWindows, on
-  if WinExist("ahk_class CASCADIA_HOSTING_WINDOW_CLASS") {
+  if WinExist("__quake_term") {
     ;Send {Alt up}
     Send #``
     Sleep, 40
-    MoveQuakeTerm("ahk_class CASCADIA_HOSTING_WINDOW_CLASS")
+    MoveQuakeTerm("__quake_term")
   } else {
-    Run wt -w _quake powershell -nologo -NoExit -command "`$Host.UI.RawUI.WindowTitle = '__quake_term'"
+    ;Run wt -w _quake powershell -nologo -NoExit -command "`$Host.UI.RawUI.WindowTitle = '__quake_term'"
+    Run wt -w _quake powershell -nologo -NoExit -File "%A_ScriptDir%\posh-with-window-title.ps1" "__quake_term"
     Sleep, 800
-    InitQuakeTerm("ahk_class CASCADIA_HOSTING_WINDOW_CLASS")
+    InitQuakeTerm("__quake_term")
   }
   DetectHiddenWindows, off
 return

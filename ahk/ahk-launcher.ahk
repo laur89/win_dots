@@ -29,12 +29,13 @@ Run conhost  powershell -NonInteractive -NoProfile -nologo -window minimized -Wi
 ;Run "%A_AHKPath%" "%A_ScriptDir%\xserver-prep.ahk"
 ;Run "%A_ScriptDir%\..\config.xlaunch"
 
-;Run wt -w _quake powershell -nologo -window minimized -NoExit -command "`$Host.UI.RawUI.WindowTitle = '__quake_term'"
-Run wt -w _quake powershell -nologo -NoExit -command "`$Host.UI.RawUI.WindowTitle = '__quake_term'"
-Sleep, 2000
-InitQuakeTerm("__quake_term")
-WinMinimize, __quake_term
-;WinMinimize, "ahk_class CASCADIA_HOSTING_WINDOW_CLASS"
+; initialize our quake-term: {  # commented out as it tends to leave bunch of empty terminal windows at boot time, at least w/ komorebi WM
+;Run wt -w _quake powershell -nologo -NoExit -command "`$Host.UI.RawUI.WindowTitle = '__quake_term'"  ; old ver not utilizing posh-with-window-title
+;Run wt -w _quake powershell -nologo -NoExit -File "%A_ScriptDir%\posh-with-window-title.ps1" "__quake_term"
+;Sleep, 2000
+;InitQuakeTerm("__quake_term")
+;WinMinimize, __quake_term
+; } /quake-term
 
 ExitApp
 
