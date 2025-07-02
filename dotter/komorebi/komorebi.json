@@ -6,7 +6,7 @@
   "default_workspace_padding": 0,
   "default_container_padding": -1,
   "border": true,
-  "border_width": 8,
+  "border_width": 4,
   "border_offset": -1,
   "theme": {
     "palette": "Base16",
