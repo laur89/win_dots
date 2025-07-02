@@ -64,21 +64,21 @@ if not (A_IsAdmin or RegExMatch(full_command_line, " /restart(?!\S)"))
 }
 return
 
-#l::
-  MsgBox, Win-L was pressed! ; Arbitrary code here
+;#l::
+  ;MsgBox, Win-L was pressed! ; Arbitrary code here
   ;Send {^}{+}{F11}
   ;Send {LWin Up}{Control}{Shift}{F11}
   ;Send {Win Up}
   ;SendInput {F11}
-return
+;return
 
-#e::
-  MsgBox, Win-EEEEE was pressed! ; Arbitrary code here
+;#e::
+  ;MsgBox, Win-EEEEE was pressed! ; Arbitrary code here
   ;Send {^}{+}{F11}
   ;Send {LWin Up}{Control}{Shift}{F11}
   ;Send {Win Up}
   ;SendInput {F11}
-return
+;return
 
 ^!l::
   ; Ctrl-Alt-L 
@@ -93,7 +93,7 @@ return
 
 SetDisableLockWorkstationRegKeyValue( value ) {
   ;MsgBox, regwrite %value%
-  RegWrite, REG_DWORD, HKEY_CURRENT_USER, Software\Microsoft\Windows\CurrentVersion\Policies\System, DisableLockWorkstation, %value%
+  RegWrite, REG_DWORD, HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Policies\System, DisableLockWorkstation, %value%
   }
 
 LockScreen() {
