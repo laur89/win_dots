@@ -53,7 +53,7 @@ return
     Send {F11}
 return
 
-; alt+i to send win+`, triggering the quake-style terminal (have to be started with wt -w _quake first):
+; alt+i to send win+`, triggering the quake-style terminal (has to be started with [wt -w _quake] first):
 !i::
   DetectHiddenWindows, on
   if WinExist("__quake_term") {
@@ -64,7 +64,8 @@ return
   } else {
     ;Run wt -w _quake powershell -nologo -NoExit -command "`$Host.UI.RawUI.WindowTitle = '__quake_term'"
     Run wt -w _quake powershell -nologo -NoExit -File "%A_ScriptDir%\posh-with-window-title.ps1" "__quake_term"
-    Sleep, 1000
+    WinWait, __quake_term,, 3
+    Sleep, 100
     InitQuakeTerm("__quake_term")
   }
   DetectHiddenWindows, off
