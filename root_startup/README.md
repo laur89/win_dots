@@ -23,3 +23,5 @@
 
 - create link/shortcut to startup folder (ctrl+r -> `shell:startup`)
 - right click on shortcut -> properties -> shortcut tab -> advanced -> tick `run as administrator`
+- as noted, this method doesn't work. haven't tested, but it's possible to get it to work if
+  our program is launched by a vbscript wrapper, see [this superuser answer](https://superuser.com/a/1039156)
