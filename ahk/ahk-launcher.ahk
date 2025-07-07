@@ -26,7 +26,7 @@ Run powershell -NoProfile -nologo -window minimized -WindowStyle hidden -Executi
 Run conhost  powershell -NonInteractive -NoProfile -nologo -window minimized -WindowStyle hidden -ExecutionPolicy Bypass -File "%A_ScriptDir%\..\scripts\launch-steam-game-gui.ps1"
 
 ; prep env for VcXsrv & launch it:
-;Run "%A_AHKPath%" "%A_ScriptDir%\xserver-prep.ahk"
+;Run "%A_AHKPath%" "%A_ScriptDir%\super-L-idle-lock.ahk"
 ;Run "%A_ScriptDir%\..\config.xlaunch"
 
 ; initialize our quake-term: {  # commented out as it tends to leave bunch of empty terminal windows at boot time, at least w/ komorebi WM
