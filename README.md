@@ -126,8 +126,10 @@ Instructions taken mainly from [MS WSL2 installation guide](https://learn.micros
     `->  settings -> apps -> optional features -> add an optional feature - view features -> meadia feature pack.`
 - to back up explorer sidebar shortcuts, back up contents of `shell:recent\AutomaticDestinations` (or `%AppData%\Microsoft\Windows\Recent\AutomaticDestinations` address)
      - this appears to contain our own-created shortcuts/quick access links
-	 - [this article](https://www.tenforums.com/tutorials/175934-how-backup-restore-quick-access-pinned-folders-windows-10-a.html#post2190171)
-	   says to only back up `f01b4d95cf55d32a.automaticDestinations-ms` file - think that's true
-   - note it's possible the user account name has to match, although
-     that import-export vb script might handle username change
+	 - [this post](https://www.tenforums.com/tutorials/175934-how-backup-restore-quick-access-pinned-folders-windows-10-a.html)
+	   says to _only_ back up `f01b4d95cf55d32a.automaticDestinations-ms` file - think that's true
+	 - same post has a [reply](https://www.tenforums.com/tutorials/175934-how-backup-restore-quick-access-pinned-folders-windows-10-a.html#post2190171)
+       linking to a script that exports & imports said bookmarks/pinned folders
+   - note it's possible the user account name has to match when importing, although
+     that export-import vb script claims to handle username change
    - there's also `shell:recent\CustomDestinations`, but unsure what it's for

@@ -1,4 +1,4 @@
-# adding startup scripts executed as admin (from [here](https://superuser.com/a/1005216/716639)):
+# adding startup scripts/programs executed as admin (from [here](https://superuser.com/a/1005216/716639)):
 
 ## method 1
 - open 'Task Scheduler'
@@ -9,7 +9,8 @@
   - tick 'Run with highest privileges'
 - in 'Triggers' tab, add New and  Begin the task->At startup
   - or alternatively 'At logon' & Specific user: select your user
-- in 'Actions' tab, choose 'Start a program' from dropdown add new and point script path to target
+- in 'Actions' tab, choose 'Start a program' from dropdown add new and point
+  script/program path to target
 - ~~in 'Conditions' tab, at the botton under 'Network' section,
   tick 'Start only if...', and select 'Network' from dropdown~~
   - !! nope, looks like it's [broken](https://superuser.com/a/1146860/716639). if you `Enable All Tasks History` 
