@@ -124,4 +124,10 @@ Instructions taken mainly from [MS WSL2 installation guide](https://learn.micros
   a game you're greeted w/ `Please reinstall the program - DSOUND.dll`
   error/message, you need to install "media feature pack":
     `->  settings -> apps -> optional features -> add an optional feature - view features -> meadia feature pack.`
-
+- to back up explorer sidebar shortcuts, back up contents of `shell:recent\AutomaticDestinations` (or `%AppData%\Microsoft\Windows\Recent\AutomaticDestinations` address)
+     - this appears to contain our own-created shortcuts/quick access links
+	 - [this article](https://www.tenforums.com/tutorials/175934-how-backup-restore-quick-access-pinned-folders-windows-10-a.html#post2190171)
+	   says to only back up `f01b4d95cf55d32a.automaticDestinations-ms` file - think that's true
+   - note it's possible the user account name has to match, although
+     that import-export vb script might handle username change
+   - there's also `shell:recent\CustomDestinations`, but unsure what it's for
