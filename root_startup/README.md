@@ -1,5 +1,6 @@
 # adding startup scripts executed as admin (from [here](https://superuser.com/a/1005216/716639)):
 
+## method 1
 - open 'Task Scheduler'
 - click 'Create Task'
 - in 'General' tab:
@@ -16,5 +17,9 @@
 	Instead of this condition, just add a delay under the trigger: advanced settings -> delay for X seconds.
     Or add network-waiting loop in the script itself.
 
+- note root_startup/ dir also contains some exported task scheduler jobs (.xml) as reference
 
-- note this dir also contains some exported task scheduler jobs (.xml) as reference
+## method 2 (doesn't work)
+
+- create link/shortcut to startup folder (ctrl+r -> `shell:startup`)
+- right click on shortcut -> properties -> shortcut tab -> advanced -> tick `run as administrator`
