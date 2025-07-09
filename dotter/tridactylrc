@@ -24,6 +24,19 @@ set hintchars 1234567890
 " Make gu take you back to subreddit from comments
 bindurl reddit.com gu urlparent 3
 
+" Make gu take you back to project root: (see https://github.com/tridactyl/tridactyl/discussions/5208)
+alias urlparent_fromroot js -p let u=tri.excmds.urlmodify_js("-g",JS_ARG||0,""); u.hash=""; window.location.href=u.href
+bindurl ^https:\/\/github\.com\/([^/]+\/){3} gu urlparent_fromroot 2
+bindurl ^https:\/\/(codeberg|gitlab\.freedesktop)\.org\/([^/]+\/){3} gu urlparent_fromroot 2
+" ...or without alias:
+"bindurl ^https:\/\/github\.com\/([^/]+\/){3} gu js window.location.href=window.location.href.match(/^https:\/\/github\.com\/([^/]+\/){2}/)[0]
+
+" release esc key on given urls: (https://github.com/tridactyl/tridactyl/discussions/5224)
+unbindurl ^https:\/\/\w+\.wikipedia\.org\/wiki\/.*#\/media\/File <Escape>
+unbindurl ^https:\/\/\w+\.delfi\.ee\/artikkel\/.*#article-image-id= <Escape>
+unbindurl ^https:\/\/\w+\.facebook\.com\/(reel|photo|[0-9]+\/videos)\/ <Escape>
+unbindurl ^https:\/\/x\.com\/.*\/photo\/[0-9]+ <Escape>
+
 " note hintdelay was introduced in https://github.com/tridactyl/tridactyl/commit/aaa0016fc5e5e160462555ab8ec517dcf9e7421e
 " Defaults to 300ms; this is especially beneficial in vimperator hintmode
 "set hintdelay 100
