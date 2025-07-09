@@ -48,13 +48,13 @@
       ]
     }
   ],
-    "floating_applications": [
+  "floating_applications": [
     {
       "kind": "Title",
       "id": "__quake_term",
       "matching_strategy": "Equals"
     },
-	{
+    {
       "kind": "Title",
       "id": "steam-launch-countdown",
       "matching_strategy": "Equals"
