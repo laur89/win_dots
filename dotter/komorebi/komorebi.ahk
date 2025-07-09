@@ -1,4 +1,4 @@
-#Requires AutoHotkey v2.0.2
+#Requires AutoHotkey v2
 ; from https://lgug2z.github.io/komorebi/common-workflows/autohotkey.html
 
 #SingleInstance Force
