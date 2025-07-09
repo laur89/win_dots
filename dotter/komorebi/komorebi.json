@@ -48,7 +48,7 @@
       ]
     }
   ],
-    "ignore_rules": [
+    "floating_applications": [
     {
       "kind": "Title",
       "id": "__quake_term",
