@@ -40,18 +40,15 @@ GroupAdd, ctrlAltRemap, ahk_class CabinetWClass  ; windows explorer
     Run "%PROGRAMFILES%\KeePassXC\KeePassXC.exe"
 return
 
-#f::
+; collides w/ komorebi
+;#f::
   ;MsgBox, Win-F was pressed! ; Arbitrary code here
-  ;Send {^}{+}{F11}
-  ;Send {LWin Up}{Control}{Shift}{F11}
-  ;Send {Win Up}
-  
   ; discord doesn't seem to respect F11 (see https://support.discord.com/hc/en-us/community/posts/360055174871-Fullscreen-mode)
-  if WinActive("ahk_exe Discord.exe")
-    Send ^+f
-  else
-    Send {F11}
-return
+  ;if WinActive("ahk_exe Discord.exe")
+    ;Send ^+f
+  ;else
+    ;Send {F11}
+;return
 
 ; alt+i to send win+`, triggering the quake-style terminal (has to be started with [wt -w _quake] first):
 !i::
@@ -72,7 +69,8 @@ return
 return
 
 ; close window; alternatively could also use   #c::Send !{F4}
-#c::WinClose A
+; collides w/ komorebi
+;#c::WinClose A
 
 ; map ctrl+y to ctrl+shift+z to better mimic redo on loonix:
 ; TODO: causes keymap language to be changed/toggled! if no other language is available it's a non-issue though.
