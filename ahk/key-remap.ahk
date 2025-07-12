@@ -1,4 +1,5 @@
 #NoEnv
+#SingleInstance, Force                                      ; Only 1 instance can run at a time
 #Include %A_ScriptDir%\funcs.ahk
 ; #Warn                      ; Enable warnings to assist with detecting common errors.
 SendMode Input               ; Recommended for new scripts due to its superior speed and reliability.
