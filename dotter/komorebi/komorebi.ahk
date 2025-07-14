@@ -1,7 +1,9 @@
 #Requires AutoHotkey v2
-; from https://lgug2z.github.io/komorebi/common-workflows/autohotkey.html
-
 #SingleInstance Force
+ListLines(0), KeyHistory(0)
+ProcessSetPriority("High")
+
+; from https://lgug2z.github.io/komorebi/common-workflows/autohotkey.html
 
 Komorebic(cmd) {
     RunWait(format("komorebic.exe {}", cmd), , "Hide")
