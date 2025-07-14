@@ -1,15 +1,14 @@
-#NoEnv
-; #Warn                      ; Enable warnings to assist with detecting common errors.
-SendMode Input               ; Recommended for new scripts due to its superior speed and reliability.
-SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
-
+#Requires AutoHotkey v2
+#SingleInstance Force
+ListLines(0), KeyHistory(0)
+ProcessSetPriority("High")
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-; script from https://www.autohotkey.com/docs/v1/lib/WinMove.htm#ExCenter
+; script from https://www.autohotkey.com/docs/v2/lib/WinMove.htm#ExCenter
 CenterWindow(WinTitle)
 {
-    WinGetPos,,, Width, Height, %WinTitle%
-    WinMove, %WinTitle%,, (A_ScreenWidth/2)-(Width/2), (A_ScreenHeight/2)-(Height/2)
+    WinGetPos ,, &Width, &Height, WinTitle
+    WinMove (A_ScreenWidth/2)-(Width/2), (A_ScreenHeight/2)-(Height/2),,, WinTitle
 }
 
 ; alt+; to center active window on our screen:
