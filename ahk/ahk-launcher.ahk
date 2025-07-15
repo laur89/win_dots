@@ -3,7 +3,7 @@
 ListLines(0), KeyHistory(0)
 ProcessSetPriority("High")
 
-#Include "%A_ScriptDir%\funcs_v2.ahk"
+#Include "%A_ScriptDir%\funcs.ahk"
 
 ; to be executed by symlink in %appdata%...\Startup dir;
 ; this script is likely managed by a system setup script,

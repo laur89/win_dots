@@ -3,7 +3,7 @@
 ListLines(0), KeyHistory(0)
 ProcessSetPriority("High")
 
-#Include "%A_ScriptDir%\funcs_v2.ahk"
+#Include "%A_ScriptDir%\funcs.ahk"
 
 
 GroupAdd "ctrlAltRemap", "ahk_class Chrome_WidgetWin_1"
