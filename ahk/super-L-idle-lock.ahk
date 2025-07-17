@@ -37,7 +37,11 @@ if not (A_IsAdmin or RegExMatch(full_command_line, " /restart(?!\S)"))
   ; Lock the screen if system has been idle:
   IdleCheckLoopMs := 10 * 1000
   LockIdleMs := 10 * 60 * 1000
-  SetOrRemoveLockScreenTimer(true)
+  idle_lock_enabled := true
+
+  if (idle_lock_enabled) {
+    SetOrRemoveLockScreenTimer(true)
+  }
 
 
 
@@ -77,7 +81,9 @@ WTS_SESSION_REMOTE_CONTROL := 0x9 ; A session has changed its remote controlled 
     }
 */
 
-    If (wParam=0x6 || wParam=0x7) { ;Logoff or lock
+    if not (idle_lock_enabled) {
+      Return true
+    } Else If (wParam=0x6 || wParam=0x7) { ;Logoff or lock
       ;Run, powercfg -change -monitor-timeout-ac 1,,Hide ;Set monitor standby timeout to 1 minute
       ;SendMessage,0x112,0xF170,2,,Program Manager ;Monitor Standby
       SetOrRemoveLockScreenTimer(false)
@@ -105,6 +111,13 @@ WTS_SESSION_REMOTE_CONTROL := 0x9 ; A session has changed its remote controlled 
   ;Send {LWin Up}{Control}{Shift}{F11}
   ;Send {Win Up}
   ;SendInput {F11}
+;}
+
+; right control + left Win to toggle locking on idle on/off:
+;>^LWin:: {
+  ;global idle_lock_enabled
+  ;idle_lock_enabled := !idle_lock_enabled
+  ;SetOrRemoveLockScreenTimer(idle_lock_enabled)
 ;}
 
 ^!l:: {
