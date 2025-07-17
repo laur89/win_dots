@@ -54,6 +54,7 @@ GroupAdd "ctrlAltRemap", "ahk_class CabinetWClass"   ; windows explorer
 
 ; alt+i to send win+`, triggering the quake-style terminal (has to be started with [wt -w _quake] first):
 !i:: {
+  Prev_DetectHiddenWindows := A_DetectHiddenWindows
   DetectHiddenWindows true
   if WinExist("__quake_term") {
     ;Send {Alt up}
@@ -68,7 +69,7 @@ GroupAdd "ctrlAltRemap", "ahk_class CabinetWClass"   ; windows explorer
       InitQuakeTerm("__quake_term")
     }
   }
-  DetectHiddenWindows false
+  DetectHiddenWindows Prev_DetectHiddenWindows
 }
 
 ; close window; alternatively could also use   #c::Send !{F4}
