@@ -9,13 +9,12 @@ ProcessSetPriority("High")
 ; this script is likely managed by a system setup script,
 ; so be careful when changing filename.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; give some time so we could stop faulty scripts at startup:
-Sleep 2500
-
-
+Run '"' A_AHKPath '" "' A_ScriptDir '\disable-super-key.ahk"'
 Run '"' A_AHKPath '" "' A_ScriptDir '\key-remap.ahk"'
 Run '"' A_AHKPath '" "' A_ScriptDir '\window-management.ahk"'
-Run '"' A_AHKPath '" "' A_ScriptDir '\disable-super-key.ahk"'
+
+; give some time so we could stop faulty scripts at startup:
+Sleep 2500
 
 ; set exec policy, so our custom posh profiles (e.g. ~/Documents/WindowsPowerShell/Profile.ps1) can be loaded: (from https://stackoverflow.com/a/79403172)
 Run 'powershell -NonInteractive -NoProfile -nologo -window minimized -WindowStyle hidden Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser'
