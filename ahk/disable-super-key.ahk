@@ -17,3 +17,4 @@ Return                                                          ; End of auto-ex
 #HotIf WinActive("ahk_group GG") && disable_super
 *Lwin::return
 *Rwin::return
+!esc::return
