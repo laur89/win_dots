@@ -12,6 +12,19 @@ GroupAdd "ctrlAltRemap", "ahk_class Notepad"
 GroupAdd "ctrlAltRemap", "ahk_class CabinetWClass"   ; windows explorer
 ;GroupAdd "ctrlAltRemap", "ahk_exe msedge.exe ahk_class Chrome_WidgetWin_1"  ; <-- to target Edge specifically
 
+
+GroupAdd "GG", "ahk_class UnrealWindow"  ; pubg
+
+disable_super := true                                           ; Track on/off for disabling super key
+>^LWin::global disable_super := !disable_super                  ; right control + left Win to toggle on/off
+
+#HotIf WinActive("ahk_group GG") && disable_super
+  *Lwin::return
+  *Rwin::return
+  !esc::return
+  !e::return  ; disable expo binding
+#HotIf
+
 #HotIf WinActive("ahk_group ctrlAltRemap")
   !0::Send "^0"
   !1::Send "^1"

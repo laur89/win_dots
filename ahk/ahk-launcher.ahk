@@ -9,7 +9,7 @@ ProcessSetPriority("High")
 ; this script is likely managed by a system setup script,
 ; so be careful when changing filename.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-Run '"' A_AHKPath '" "' A_ScriptDir '\disable-super-key.ahk"'
+;Run '"' A_AHKPath '" "' A_ScriptDir '\disable-super-key.ahk"'
 Run '"' A_AHKPath '" "' A_ScriptDir '\key-remap.ahk"'
 Run '"' A_AHKPath '" "' A_ScriptDir '\window-management.ahk"'
 
