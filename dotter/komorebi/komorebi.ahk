@@ -9,6 +9,10 @@ Komorebic(cmd) {
     RunWait(format("komorebic.exe {}", cmd), , "Hide")
 }
 
+#Include "%A_MyDocuments"\..\dev\win_dots\ahk\vars.ahk"
+
+#HotIf !WinActive("ahk_group GG")
+
 #c::Komorebic("close")  ; provided by our general window-management
 !m::Komorebic("minimize")
 
@@ -81,3 +85,4 @@ Komorebic(cmd) {
 #+6::Komorebic("move-to-workspace 5")
 #+7::Komorebic("move-to-workspace 6")
 #+8::Komorebic("move-to-workspace 7")
+#HotIf
