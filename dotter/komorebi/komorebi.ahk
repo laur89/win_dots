@@ -32,13 +32,20 @@ Komorebic(cmd) {
 #+l::Komorebic("move right")
 
 ; Stack windows
-!Left::Komorebic("stack left")
-!Down::Komorebic("stack down")
-!Up::Komorebic("stack up")
-!Right::Komorebic("stack right")
-!;::Komorebic("unstack")
-![::Komorebic("cycle-stack previous")
-!]::Komorebic("cycle-stack next")
+;!Left::Komorebic("stack left")
+;!Down::Komorebic("stack down")
+;!Up::Komorebic("stack up")
+;!Right::Komorebic("stack right")
+#Left::Komorebic("stack left")
+#Down::Komorebic("stack down")
+#Up::Komorebic("stack up")
+#Right::Komorebic("stack right")
+;!;::Komorebic("unstack")
+#d::Komorebic("unstack")
+;![::Komorebic("cycle-stack previous")
+;!]::Komorebic("cycle-stack next")
+!h::Komorebic("cycle-stack previous")
+!l::Komorebic("cycle-stack next")
 
 ; Resize
 !=::Komorebic("resize-axis horizontal increase")
