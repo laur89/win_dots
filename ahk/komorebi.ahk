@@ -9,7 +9,7 @@ Komorebic(cmd) {
     RunWait(format("komorebic.exe {}", cmd), , "Hide")
 }
 
-#Include "%A_MyDocuments"\..\dev\win_dots\ahk\vars.ahk"
+#Include "%A_MyDocuments%\..\dev\win_dots\ahk\vars.ahk"
 
 #HotIf !WinActive("ahk_group GG")
 
