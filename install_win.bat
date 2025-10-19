@@ -203,7 +203,7 @@ rem  - https://github.com/dalyIsaac/Whim
 choco install komorebi
 rem enable komorebi autostart, see https://lgug2z.github.io/komorebi/common-workflows/autostart.html:
 where /q komorebic.exe
-if %errorlevel% equ 0 komorebic.exe enable-autostart --ahk --bar
+if %errorlevel% equ 0 komorebic.exe enable-autostart --bar
 
 
 rem Context menu for Windows Explorer to offer "Copy Unix Path", "Copy Long UNC Path", ...

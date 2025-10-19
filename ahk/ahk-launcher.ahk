@@ -12,6 +12,7 @@ ProcessSetPriority("High")
 ;Run '"' A_AHKPath '" "' A_ScriptDir '\disable-super-key.ahk"'
 Run '"' A_AHKPath '" "' A_ScriptDir '\key-remap.ahk"'
 Run '"' A_AHKPath '" "' A_ScriptDir '\window-management.ahk"'
+Run '"' A_AHKPath '" "' A_ScriptDir '\komorebi.ahk"'
 
 ; give some time so we could stop faulty scripts at startup:
 Sleep 2500
