@@ -133,3 +133,7 @@ Instructions taken mainly from [MS WSL2 installation guide](https://learn.micros
    - note it's possible the user account name has to match when importing, although
      that export-import vb script claims to handle username change
    - there's also `shell:recent\CustomDestinations`, but unsure what it's for
+
+## todo
+
+- replace dotter w/ chezmoi
